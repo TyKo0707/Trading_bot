@@ -13,20 +13,6 @@ from models import *
 
 logger = logging.getLogger()
 
-
-# def get_contracts():
-#     response_object = requests.get('https://fapi.binance.com/fapi/v1/exchangeInfo')
-#     # print(response_object.status_code)
-#
-#     contracts = []
-#
-#     for contract in response_object.json()['symbols']:
-#         contracts.append(contract['pair'])
-#
-#     return contracts
-#
-# get_contracts()
-
 class BinanceFuturesClient:
 
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
