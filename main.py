@@ -13,7 +13,6 @@ bitmex_public_key = os.getenv('BITMEX_PK')
 bitmex_secret_key = os.getenv('BITMEX_SK')
 bitmex_test_key = os.getenv('BITMEX_TK')
 
-print(binance_public_key)
 
 logger = logging.getLogger()
 
