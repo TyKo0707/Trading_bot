@@ -1,6 +1,7 @@
 import logging
 import tkinter as tk
 from connectors.binance_futures import BinanceFuturesClient
+from connectors.bitmex_futures import BitmexClient
 
 import os
 from dotenv import load_dotenv
@@ -32,7 +33,11 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
 
-    binance = BinanceFuturesClient(binance_public_key, binance_secret_key, True)
+    bitmex = BitmexClient(bitmex_public_key, bitmex_secret_key, True)
+    print(bitmex.contracts['XBTUSD'].base_asset, bitmex.contracts['XBTUSD'].price_decimals)
+    print(bitmex.balances['XBt'].wallet_balance)
+    print(bitmex.get_historical_candles())
+    # binance = BinanceFuturesClient(binance_public_key, binance_secret_key, True)
 
     root = tk.Tk()
     root.mainloop()

@@ -13,6 +13,7 @@ from models import *
 
 logger = logging.getLogger()
 
+
 class BinanceFuturesClient:
 
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
@@ -79,7 +80,7 @@ class BinanceFuturesClient:
                          method, endpoint, response.json())
             return None
 
-    def get_contracts(self) -> typing.Dict[str, Contract]:
+    def get_contracts(self):
 
         exchange_info = self._make_request("GET", '/fapi/v1/exchangeInfo', dict())
 
@@ -87,7 +88,7 @@ class BinanceFuturesClient:
 
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
-                contracts[contract_data['pair']] = Contract(contract_data)
+                contracts[contract_data['pair']] = Contract(contract_data, 'binance')
 
         return contracts
 
@@ -117,7 +118,7 @@ class BinanceFuturesClient:
         if ob_data is not None:
             if contracts.symbol not in self.prices:
                 self.prices[contracts.symbol] = {'bid': float(ob_data['bidPrice']),
-                                                'ask': float(ob_data['askPrice'])}
+                                                 'ask': float(ob_data['askPrice'])}
             else:
                 self.prices[contracts.symbol]['bid'] = float(ob_data['bidPrice'])
                 self.prices[contracts.symbol]['bid'] = float(ob_data['askPrice'])
@@ -136,9 +137,7 @@ class BinanceFuturesClient:
 
         if account_data is not None:
             for a in account_data['assets']:
-                balances[a['asset']] = Balance(a)
-
-        # print(balances['USDT'].wallet_balance)
+                balances[a['asset']] = Balance(a, 'binance')
 
         return balances
 
@@ -236,7 +235,7 @@ class BinanceFuturesClient:
                         self.prices[symbol]['bid'] = float(data['b'])
                         self.prices[symbol]['bid'] = float(data['a'])
 
-    def subscribe_channel(self, contracts: typing.List[Contract], channel:str):
+    def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
 
         data = dict()
         data['method'] = 'SUBSCRIBE'
