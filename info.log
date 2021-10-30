@@ -1,0 +1,128 @@
+2021-10-26 22:25:38,165 INFO :: This message just show basic info
+2021-10-26 22:25:38,165 WARNING :: This message is about something you should pay attention to
+2021-10-26 22:25:38,166 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 22:28:50,283 INFO :: This message just show basic info
+2021-10-26 22:28:50,283 WARNING :: This message is about something you should pay attention to
+2021-10-26 22:28:50,283 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 22:28:50,283 INFO :: Hello from the binance connector
+2021-10-26 22:42:44,736 INFO :: This message just show basic info
+2021-10-26 22:42:44,736 WARNING :: This message is about something you should pay attention to
+2021-10-26 22:42:44,736 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:45:51,610 INFO :: This message just show basic info
+2021-10-26 23:45:51,611 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:45:51,611 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:46:45,307 INFO :: This message just show basic info
+2021-10-26 23:46:45,307 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:46:45,307 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:47:05,716 INFO :: This message just show basic info
+2021-10-26 23:47:05,716 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:47:05,716 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:47:18,863 INFO :: This message just show basic info
+2021-10-26 23:47:18,863 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:47:18,863 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:47:25,980 INFO :: This message just show basic info
+2021-10-26 23:47:25,980 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:47:25,980 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:49:23,263 INFO :: This message just show basic info
+2021-10-26 23:49:23,263 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:49:23,264 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-26 23:50:00,743 INFO :: This message just show basic info
+2021-10-26 23:50:00,743 WARNING :: This message is about something you should pay attention to
+2021-10-26 23:50:00,743 ERROR :: This message helps to debug an error that occurred in your program
+2021-10-28 19:57:20,793 INFO :: Binance Futures Client successfully initialized
+2021-10-28 19:57:48,806 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:00:32,058 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:00:57,312 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:02:07,050 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:03:46,232 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:04:07,447 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:06:14,448 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:06:22,099 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:07:25,445 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:07:25,805 ERROR :: Error while making request to GET: /fapi/v1/klines (error code {'code': -1120, 'msg': 'Invalid interval.'})
+2021-10-28 20:07:40,332 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:07:40,705 ERROR :: Error while making request to GET: /fapi/v1/klines (error code {'code': -1120, 'msg': 'Invalid interval.'})
+2021-10-28 20:07:49,039 INFO :: Binance Futures Client successfully initialized
+2021-10-28 20:07:49,392 ERROR :: Error while making request to GET: /fapi/v1/klines (error code {'code': -1120, 'msg': 'Invalid interval.'})
+2021-10-28 20:08:03,311 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:13:37,558 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:15:05,072 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:18:10,712 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:18:23,728 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:18:24,206 ERROR :: Error while making request to GET: /fapi/v1/account (error code {'code': -2014, 'msg': 'API-key format invalid.'})
+2021-10-28 23:19:13,763 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:21:58,777 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:23:55,647 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:35:02,901 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:35:11,191 ERROR :: Error while making request to GET: /fapi/v1/account (error code {'code': -1021, 'msg': 'Timestamp for this request is outside of the recvWindow.'})
+2021-10-28 23:35:23,178 ERROR :: Error while making request to POST: /fapi/v1/order (error code {'code': -1021, 'msg': 'Timestamp for this request is outside of the recvWindow.'})
+2021-10-28 23:35:28,512 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:35:33,423 ERROR :: Error while making request to POST: /fapi/v1/order (error code {'code': -1102, 'msg': "Mandatory parameter 'timeInForce' was not sent, was empty/null, or malformed."})
+2021-10-28 23:40:28,471 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:42:19,017 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:43:08,546 INFO :: Binance Futures Client successfully initialized
+2021-10-28 23:43:38,314 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:07:35,849 ERROR :: error from callback <bound method BinanceFuturesClient.on_open of <connectors.binance_features.BinanceFuturesClient object at 0x000001ECF6A5C910>>: BinanceFuturesClient.on_open() takes 1 positional argument but 2 were given
+2021-10-29 22:08:05,874 ERROR :: error from callback <bound method BinanceFuturesClient.on_error of <connectors.binance_features.BinanceFuturesClient object at 0x000001ECF6A5C910>>: BinanceFuturesClient.on_error() takes 2 positional arguments but 3 were given
+2021-10-29 22:08:06,152 ERROR :: error from callback <bound method BinanceFuturesClient.on_close of <connectors.binance_features.BinanceFuturesClient object at 0x000001ECF6A5C910>>: BinanceFuturesClient.on_close() takes 1 positional argument but 2 were given
+2021-10-29 22:08:09,949 ERROR :: error from callback <bound method BinanceFuturesClient.on_open of <connectors.binance_features.BinanceFuturesClient object at 0x0000023FA986C640>>: BinanceFuturesClient.on_open() takes 1 positional argument but 2 were given
+2021-10-29 22:09:00,662 ERROR :: error from callback <bound method BinanceFuturesClient.on_error of <connectors.binance_features.BinanceFuturesClient object at 0x000001B82C52C640>>: BinanceFuturesClient.on_error() takes 2 positional arguments but 3 were given
+2021-10-29 22:09:00,663 ERROR :: error from callback <bound method BinanceFuturesClient.on_close of <connectors.binance_features.BinanceFuturesClient object at 0x000001B82C52C640>>: BinanceFuturesClient.on_close() takes 1 positional argument but 2 were given
+2021-10-29 22:09:02,677 ERROR :: error from callback <bound method BinanceFuturesClient.on_open of <connectors.binance_features.BinanceFuturesClient object at 0x000001B82C52C640>>: BinanceFuturesClient.on_open() takes 1 positional argument but 2 were given
+2021-10-29 22:11:16,371 INFO :: Binance connection opened
+2021-10-29 22:12:36,425 ERROR :: Binance connection error: 
+2021-10-29 22:12:38,243 INFO :: Binance connection opened
+2021-10-29 22:12:45,645 INFO :: Binance connection opened
+2021-10-29 22:12:55,650 INFO :: Binance connection opened
+2021-10-29 22:16:03,275 INFO :: Binance connection opened
+2021-10-29 22:16:36,982 INFO :: Binance connection opened
+2021-10-29 22:16:46,989 ERROR :: Binance connection error: 
+2021-10-29 22:16:49,448 WARNING :: Binance Websocket connection is closed
+2021-10-29 22:16:52,758 INFO :: Binance connection is opened
+2021-10-29 22:17:02,765 ERROR :: Binance connection error: 
+2021-10-29 22:17:03,036 WARNING :: Binance Websocket connection is closed
+2021-10-29 22:17:04,446 INFO :: Binance connection is opened
+2021-10-29 22:18:06,281 INFO :: Binance connection is opened
+2021-10-29 22:19:46,399 INFO :: Binance connection is opened
+2021-10-29 22:22:04,258 INFO :: Binance connection is opened
+2021-10-29 22:22:49,773 INFO :: Binance connection is opened
+2021-10-29 22:24:13,664 INFO :: Binance connection is opened
+2021-10-29 22:25:08,509 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:25:09,592 INFO :: Binance connection is opened
+2021-10-29 22:26:16,291 INFO :: Binance connection is opened
+2021-10-29 22:27:16,694 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:27:17,813 INFO :: Binance connection is opened
+2021-10-29 22:34:06,291 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:34:08,444 INFO :: Binance connection is opened
+2021-10-29 22:38:46,631 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:38:49,234 INFO :: Binance connection is opened
+2021-10-29 22:41:34,527 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:41:35,659 INFO :: Binance connection is opened
+2021-10-29 22:41:55,054 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:41:56,172 INFO :: Binance connection is opened
+2021-10-29 22:42:29,153 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:42:30,416 INFO :: Binance connection is opened
+2021-10-29 22:42:55,632 INFO :: Binance Futures Client successfully initialized
+2021-10-29 22:42:57,420 INFO :: Binance connection is opened
+2021-10-29 23:17:27,512 INFO :: Binance Futures Client successfully initialized
+2021-10-29 23:17:31,442 INFO :: Binance connection is opened
+2021-10-30 19:10:38,988 INFO :: Binance Futures Client successfully initialized
+2021-10-30 19:10:40,128 INFO :: Binance connection is opened
+2021-10-30 19:10:40,128 ERROR :: error from callback <bound method BinanceFuturesClient._on_open of <connectors.binance_futures.BinanceFuturesClient object at 0x000001FD6DFD9180>>: 'list' object has no attribute 'symbol'
+2021-10-30 19:11:58,150 INFO :: Binance Futures Client successfully initialized
+2021-10-30 19:11:59,306 INFO :: Binance connection is opened
+2021-10-30 19:11:59,306 ERROR :: error from callback <bound method BinanceFuturesClient._on_open of <connectors.binance_futures.BinanceFuturesClient object at 0x000001D7B7AFCF70>>: list indices must be integers or slices, not str
+2021-10-30 19:13:09,395 ERROR :: Binance connection error: 
+2021-10-30 19:13:09,661 WARNING :: Binance Websocket connection is closed
+2021-10-30 19:13:11,382 INFO :: Binance Futures Client successfully initialized
+2021-10-30 19:13:12,508 INFO :: Binance connection is opened
+2021-10-30 19:13:12,508 ERROR :: error from callback <bound method BinanceFuturesClient._on_open of <connectors.binance_futures.BinanceFuturesClient object at 0x0000015593720D30>>: 'list' object has no attribute 'symbol'
+2021-10-30 19:22:37,059 INFO :: Binance Futures Client successfully initialized
+2021-10-30 19:22:38,241 INFO :: Binance connection is opened
+2021-10-30 19:22:42,851 ERROR :: Binance connection error: 
+2021-10-30 19:49:06,532 INFO :: Binance Futures Client successfully initialized
+2021-10-30 19:49:07,880 INFO :: Binance connection is opened
+2021-10-30 19:49:43,799 INFO :: Binance Futures Client successfully initialized
+2021-10-30 19:49:44,916 INFO :: Binance connection is opened
+2021-10-30 20:16:27,673 INFO :: Binance Futures Client successfully initialized
+2021-10-30 20:16:28,960 INFO :: Binance connection is opened
