@@ -1,49 +1,71 @@
-import hashlib
-import hmac
-import json
 import logging
-import threading
-import time
-from urllib.parse import urlencode
-import typing
 import requests
+import time
+import typing
+import collections
+
+from urllib.parse import urlencode
+
+import hmac
+import hashlib
+
 import websocket
+import json
+
+import dateutil.parser
+
+import threading
 
 from models import *
 
+# from strategies import TechnicalStrategy, BreakoutStrategy
+
 logger = logging.getLogger()
 
-class BitmexClient():
 
+class BitmexClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
+
+        """
+        See comments in the Binance connector.
+        :param public_key:
+        :param secret_key:
+        :param testnet:
+        """
+
+        self.futures = True
+        self.platform = "bitmex"  # Just to have more homogeneous connectors, even if self.platform is not used
+
         if testnet:
-            self._base_url = 'https://testnet.bitmex.com'
-            self._wss_url = 'wss://testnet.bitmex.com/realtime'
+            self._base_url = "https://testnet.bitmex.com"
+            self._wss_url = "wss://testnet.bitmex.com/realtime"
         else:
-            self._base_url = 'https://www.bitmex.com'
-            self._wss_url = 'wss://www.bitmex.com/realtime'
+            self._base_url = "https://www.bitmex.com"
+            self._wss_url = "wss://www.bitmex.com/realtime"
 
         self._public_key = public_key
         self._secret_key = secret_key
 
-        self.prices = dict()
-
-        self._ws_id = 1
         self._ws = None
+        self.reconnect = True
 
         self.contracts = self.get_contracts()
         self.balances = self.get_balances()
 
-        logger.info('Bitmex Client successfully initialized')
+        self.prices = dict()
+        t = threading.Thread(target=self._start_ws)
+        t.start()
 
-        # t = threading.Thread(target=self._start_ws())
-        # t.start()
+        logger.info("Bitmex Client successfully initialized")
+
+    # def _add_log(self, msg: str):
+    #     logger.info("%s", msg)
+    #     self.logs.append({"log": msg, "displayed": False})
 
     def _generate_signature(self, method: str, endpoint: str, expires: str, data: typing.Dict) -> str:
 
         message = method + endpoint + "?" + urlencode(data) + expires if len(data) > 0 else method + endpoint + expires
         return hmac.new(self._secret_key.encode(), message.encode(), hashlib.sha256).hexdigest()
-
 
     def _make_request(self, method: str, endpoint: str, data: typing.Dict):
 
@@ -57,32 +79,30 @@ class BitmexClient():
             try:
                 response = requests.get(self._base_url + endpoint, params=data, headers=headers)
             except Exception as e:
-                logger.error('Connection error while making %s request to %s', method, endpoint, e)
+                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                 return None
 
         elif method == "POST":
             try:
                 response = requests.post(self._base_url + endpoint, params=data, headers=headers)
             except Exception as e:
-                logger.error('Connection error while making %s request to %s', method, endpoint, e)
+                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                 return None
 
         elif method == "DELETE":
             try:
                 response = requests.delete(self._base_url + endpoint, params=data, headers=headers)
             except Exception as e:
-                logger.error('Connection error while making %s request to %s', method, endpoint, e)
+                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                 return None
-
         else:
             raise ValueError()
 
         if response.status_code == 200:
             return response.json()
-
         else:
-            logger.error("Error while making request to %s: %s (error code %s)",
-                         method, endpoint, response.json())
+            logger.error("Error while making %s request to %s: %s (error code %s)",
+                         method, endpoint, response.json(), response.status_code)
             return None
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
@@ -95,7 +115,7 @@ class BitmexClient():
             for s in instruments:
                 contracts[s['symbol']] = Contract(s, "bitmex")
 
-        return contracts
+        return collections.OrderedDict(sorted(contracts.items()))  # Sort keys of the dictionary alphabetically
 
     def get_balances(self) -> typing.Dict[str, Balance]:
         data = dict()
@@ -111,17 +131,16 @@ class BitmexClient():
 
         return balances
 
-    def get_historical_candles(self, contracts: Contract, timeframe: str) -> typing.List[Candle]:
-
+    def get_historical_candles(self, contract: Contract, timeframe: str) -> typing.List[Candle]:
         data = dict()
 
-        data['symbol'] = contracts.symbol
+        data['symbol'] = contract.symbol
         data['partial'] = True
         data['binSize'] = timeframe
         data['count'] = 500
         data['reverse'] = True
 
-        raw_candles = self._make_request('GET', '/api/v1/trade/bucketed', data)
+        raw_candles = self._make_request("GET", "/api/v1/trade/bucketed", data)
 
         candles = []
 
@@ -133,17 +152,17 @@ class BitmexClient():
 
         return candles
 
-    def place_order(self, contracts: Contract, side: str, quantity: float, order_type: str, price = None, tif = None) -> OrderStatus:
-
+    def place_order(self, contract: Contract, order_type: str, quantity: int, side: str, price=None,
+                    tif=None) -> OrderStatus:
         data = dict()
 
-        data['symbol'] = contracts.symbol
+        data['symbol'] = contract.symbol
         data['side'] = side.capitalize()
-        data['orderQty'] = round(quantity / contracts.lot_size) * contracts.lot_size
+        data['orderQty'] = round(quantity / contract.lot_size) * contract.lot_size
         data['ordType'] = order_type.capitalize()
 
         if price is not None:
-            data['price'] = round(round(price / contracts.tick_size) * contracts.tick_size, 8)
+            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
 
         if tif is not None:
             data['timeInForce'] = tif
@@ -155,8 +174,7 @@ class BitmexClient():
 
         return order_status
 
-    def cancel_order(self, order_id: int) -> OrderStatus:
-
+    def cancel_order(self, order_id: str) -> OrderStatus:
         data = dict()
         data['orderID'] = order_id
 
@@ -166,3 +184,73 @@ class BitmexClient():
             order_status = OrderStatus(order_status[0], "bitmex")
 
         return order_status
+
+    def get_order_status(self, contract: Contract, order_id: str) -> OrderStatus:
+
+        data = dict()
+        data['symbol'] = contract.symbol
+        data['reverse'] = True
+
+        order_status = self._make_request("GET", "/api/v1/order", data)
+
+        if order_status is not None:
+            for order in order_status:
+                if order['orderID'] == order_id:
+                    return OrderStatus(order, "bitmex")
+
+    def _start_ws(self):
+
+        self.ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close,
+                                         on_error=self._on_error, on_message=self._on_message)
+        while True:
+            try:
+                if self.reconnect:
+                    self.ws.run_forever()
+                else:
+                    break
+            except Exception as e:
+                logger.error("Bitmex error in run_forever() method: %s", e)
+            time.sleep(2)
+
+    def _on_open(self, ws):
+
+        logger.info("Bitmex connection opened")
+
+        self.subscribe_channel("instrument")
+        self.subscribe_channel("trade")
+
+    def _on_close(self, ws):
+
+        logger.warning('Binance Websocket connection is closed')
+
+    def _on_error(self, ws, msg: str):
+
+        logger.error('Binance connection error: %s', msg)
+
+    def _on_message(self, ws, msg: str):
+
+        data = json.loads(msg)
+
+        if 'table' in data:
+            if data['table'] == 'instrument':
+                for d in data['data']:
+                    symbol = d['symbol']
+                    if data is not None:
+                        if symbol not in self.prices:
+                            self.prices[symbol] = {'bid': None, 'ask': None}
+                        if 'bidPrice' in d:
+                            self.prices[symbol]['bid'] = d['bidPrice']
+                        if 'askPrice' in d:
+                            self.prices[symbol]['ask'] = d['askPrice']
+
+    def subscribe_channel(self, topic: str):
+
+        data = dict()
+        data['op'] = "subscribe"
+        data['args'] = []
+        data['args'].append(topic)
+
+        try:
+            self.ws.send(json.dumps(data))
+        except Exception as e:
+            logger.error("Websocket error while subscribing to %s: %s", topic, e)

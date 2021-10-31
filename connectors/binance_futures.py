@@ -105,7 +105,7 @@ class BinanceFuturesClient:
 
         if raw_candles is not None:
             for c in raw_candles:
-                candles.append(Candle(c))
+                candles.append(Candle(c, interval, 'binance'))
 
         return candles
 
@@ -147,11 +147,11 @@ class BinanceFuturesClient:
         data = dict()
         data['symbol'] = contracts.symbol
         data['side'] = side
-        data['quantity'] = quantity
+        data['quantity'] = round(quantity / contracts.lot_size) * contracts.lot_size
         data['type'] = order_type
 
         if price is not None:
-            data['price'] = price
+            data['price'] = round(price / contracts.tick_size) * contracts.tick_size
         if tif is not None:
             data['timeInForce'] = tif
 
@@ -161,7 +161,7 @@ class BinanceFuturesClient:
         order_status = self._make_request('POST', '/fapi/v1/order', data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status)
+            order_status = OrderStatus(order_status, 'binance')
 
         return order_status
 
@@ -177,7 +177,7 @@ class BinanceFuturesClient:
         order_status = self._make_request('DELETE', '/fapi/v1/order', data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status)
+            order_status = OrderStatus(order_status, 'binance')
 
         return order_status
 
@@ -192,7 +192,7 @@ class BinanceFuturesClient:
         order_status = self._make_request("GET", '/fapi/v1/order', data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status)
+            order_status = OrderStatus(order_status, 'binance')
 
         return order_status
 
@@ -204,7 +204,7 @@ class BinanceFuturesClient:
             try:
                 self.ws.run_forever()
             except Exception as e:
-                logger.error('Binance erroe in run_forever() method: %s', e)
+                logger.error('Binance error in run_forever() method: %s', e)
             time.sleep(2)
 
     def _on_open(self, ws):
