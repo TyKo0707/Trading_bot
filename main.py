@@ -2,6 +2,7 @@ import logging
 import tkinter as tk
 from connectors.binance_futures import BinanceFuturesClient
 from connectors.bitmex_futures import BitmexClient
+from interface.root_component import Root
 
 import os
 from dotenv import load_dotenv
@@ -33,10 +34,8 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
 
-    bitmex = BitmexClient(bitmex_public_key, bitmex_secret_key, True)
+    # bitmex = BitmexClient(bitmex_public_key, bitmex_secret_key, True)
     # binance = BinanceFuturesClient(binance_public_key, binance_secret_key, True)
 
-    print(bitmex.place_order(bitmex.contracts['ADAUSD'], 'Limit', 140, 'Buy', 20000.1324354654534, 'GoodTillCancel'))
-
-    root = tk.Tk()
+    root = Root()
     root.mainloop()
