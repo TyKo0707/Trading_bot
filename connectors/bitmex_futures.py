@@ -1,24 +1,17 @@
+import collections
+import hashlib
+import hmac
+import json
 import logging
-import requests
+import threading
 import time
 import typing
-import collections
-
 from urllib.parse import urlencode
 
-import hmac
-import hashlib
-
+import requests
 import websocket
-import json
-
-import dateutil.parser
-
-import threading
 
 from models import *
-
-# from strategies import TechnicalStrategy, BreakoutStrategy
 
 logger = logging.getLogger()
 
@@ -53,14 +46,17 @@ class BitmexClient:
         self.balances = self.get_balances()
 
         self.prices = dict()
+
+        self.logs = []
+
         t = threading.Thread(target=self._start_ws)
         t.start()
 
         logger.info("Bitmex Client successfully initialized")
 
-    # def _add_log(self, msg: str):
-    #     logger.info("%s", msg)
-    #     self.logs.append({"log": msg, "displayed": False})
+    def _add_log(self, msg: str):
+        logger.info('%s', msg)
+        self.logs.append({'log': msg, 'displayed': False})
 
     def _generate_signature(self, method: str, endpoint: str, expires: str, data: typing.Dict) -> str:
 
@@ -242,6 +238,9 @@ class BitmexClient:
                             self.prices[symbol]['bid'] = d['bidPrice']
                         if 'askPrice' in d:
                             self.prices[symbol]['ask'] = d['askPrice']
+                        if symbol == 'XBTUSD':
+                            self._add_log(symbol + ' ' + str(self.prices[symbol]['bid']) + '/'
+                                          + str(self.prices[symbol]['ask']))
 
     def subscribe_channel(self, topic: str):
 
