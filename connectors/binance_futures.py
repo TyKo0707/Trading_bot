@@ -239,8 +239,7 @@ class BinanceFuturesClient:
                                                'ask': float(data['a'])}
                     else:
                         self.prices[symbol]['bid'] = float(data['b'])
-                        self.prices[symbol]['bid'] = float(data['a'])
-
+                        self.prices[symbol]['ask'] = float(data['a'])
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
 

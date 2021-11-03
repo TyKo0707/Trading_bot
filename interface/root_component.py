@@ -5,6 +5,7 @@ from connectors.binance_futures import BinanceFuturesClient
 from connectors.bitmex_futures import BitmexClient
 from interface.styling import *
 from interface.watchlist_component import WatchList
+from interface.trades_component import TradesWatch
 
 logger = logging.getLogger()
 
@@ -23,7 +24,7 @@ class Root(tk.Tk):
         self._left_frame = tk.Frame(self, bg=BG_COLOR)
         self._left_frame.pack(side=tk.LEFT)
 
-        self._right_frame = tk.Frame(self, bg=BG_COLOR)
+        self._right_frame = tk.Frame(self, bg=BG_COLOR_2)
         self._right_frame.pack(side=tk.RIGHT)
 
         self._watchlist_frame = WatchList(self.binance.contracts, self.bitmex.contracts, self._left_frame, bg=BG_COLOR)
@@ -31,6 +32,9 @@ class Root(tk.Tk):
 
         self.logging_frame = Logging(self._left_frame, bg=BG_COLOR)
         self.logging_frame.pack(side=tk.TOP)
+
+        self._trades_frame = TradesWatch(self._right_frame, bg=BG_COLOR)
+        self._trades_frame.pack(side=tk.TOP)
 
         self._update_ui()
 
