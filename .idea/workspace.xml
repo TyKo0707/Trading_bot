@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating watchlist 3 + adding trading component to gui">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="adding strategy component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/trades_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/trades_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/root_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/root_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +38,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../tr" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -225,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635971586030</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="adding strategy component">
+      <created>1635972666982</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1635972666982</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -263,6 +271,7 @@
     <MESSAGE value="updating watchlist" />
     <MESSAGE value="updating watchlist 2" />
     <MESSAGE value="updating watchlist 3 + adding trading component to gui" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating watchlist 3 + adding trading component to gui" />
+    <MESSAGE value="adding strategy component" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding strategy component" />
   </component>
 </project>
