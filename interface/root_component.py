@@ -34,7 +34,7 @@ class Root(tk.Tk):
         self.logging_frame = Logging(self._left_frame, bg=BG_COLOR)
         self.logging_frame.pack(side=tk.TOP)
 
-        self._strategy_frame = StrategyEditor(self.binance, self.bitmex, self._right_frame, bg=BG_COLOR)
+        self._strategy_frame = StrategyEditor(self, self.binance, self.bitmex, self._right_frame, bg=BG_COLOR)
         self._strategy_frame.pack(side=tk.TOP)
 
         self._trades_frame = TradesWatch(self._right_frame, bg=BG_COLOR)

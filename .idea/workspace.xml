@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating strategy component 2">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating strategy component 3 and 4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interface/root_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/root_component.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
@@ -247,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636065683574</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="updating strategy component 3 and 4">
+      <created>1636126151962</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1636126151962</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -288,6 +295,7 @@
     <MESSAGE value="adding strategy component" />
     <MESSAGE value="updating strategy component 1" />
     <MESSAGE value="updating strategy component 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating strategy component 2" />
+    <MESSAGE value="updating strategy component 3 and 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating strategy component 3 and 4" />
   </component>
 </project>
