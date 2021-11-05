@@ -1,5 +1,5 @@
 import logging
-import typing
+from typing import *
 
 from models import *
 
@@ -15,6 +15,8 @@ class Strategy():
         self.balance_pct = balance_pct
         self.take_profit = take_profit
         self.stop_loss = stop_loss
+
+        self.candles: List[Candle] = []
 
 
 class TechnicalStrategy(Strategy):
