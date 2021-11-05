@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="adding strategies (yeeaahh!)">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating strategies with classes for types of strategies">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/bitmex_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/bitmex_futures.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategies.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,7 +270,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636152443042</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="updating gitignore">
+      <created>1636154301410</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1636154301410</updated>
+    </task>
+    <task id="LOCAL-00019" summary="updating strategies with classes for types of strategies">
+      <created>1636154450762</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1636154450762</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,6 +328,8 @@
     <MESSAGE value="updating strategy component 3 and 4" />
     <MESSAGE value="finishing strategy component" />
     <MESSAGE value="adding strategies (yeeaahh!)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding strategies (yeeaahh!)" />
+    <MESSAGE value="updating gitignore" />
+    <MESSAGE value="updating strategies with classes for types of strategies" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating strategies with classes for types of strategies" />
   </component>
 </project>

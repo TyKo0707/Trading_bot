@@ -1,14 +1,16 @@
-import tkinter as tk
-from interface.logging_component import Logging
 import logging
+import tkinter as tk
+
 from connectors.binance_futures import BinanceFuturesClient
 from connectors.bitmex_futures import BitmexClient
-from interface.styling import *
-from interface.watchlist_component import WatchList
-from interface.trades_component import TradesWatch
+from interface.logging_component import Logging
 from interface.strategy_component import StrategyEditor
+from interface.styling import *
+from interface.trades_component import TradesWatch
+from interface.watchlist_component import WatchList
 
 logger = logging.getLogger()
+
 
 class Root(tk.Tk):
 
@@ -73,11 +75,9 @@ class Root(tk.Tk):
 
                 elif exchange == 'Bitmex':
                     if symbol not in self.bitmex.contracts:
-
                         continue
 
                     if symbol not in self.bitmex.prices:
-
                         continue
 
                     precision = self.bitmex.contracts[symbol].price_decimals

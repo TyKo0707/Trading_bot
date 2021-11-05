@@ -5,10 +5,10 @@ from models import *
 
 logger = logging.getLogger()
 
+
 class Strategy():
     def __init__(self, contract: Contract, exchange: str, timeframe: str,
                  balance_pct: float, take_profit: float, stop_loss: float):
-
         self.contract = contract
         self.exchange = exchange
         self.timeframe = timeframe
@@ -21,9 +21,9 @@ class Strategy():
 
 class TechnicalStrategy(Strategy):
 
-    def __init__(self,  contract: Contract, exchange: str, timeframe: str,
+    def __init__(self, contract: Contract, exchange: str, timeframe: str,
                  balance_pct: float, take_profit: float, stop_loss: float,
-                 other_params: typing.Dict):
+                 other_params: Dict):
         super().__init__(contract, exchange, timeframe, balance_pct, take_profit, stop_loss)
 
         self._ema_fast = other_params['ema_fast']
@@ -33,9 +33,9 @@ class TechnicalStrategy(Strategy):
 
 class BreakoutStrategy(Strategy):
 
-    def __init__(self,  contract: Contract, exchange: str, timeframe: str,
+    def __init__(self, contract: Contract, exchange: str, timeframe: str,
                  balance_pct: float, take_profit: float, stop_loss: float,
-                 other_params: typing.Dict):
+                 other_params: Dict):
         super().__init__(contract, exchange, timeframe, balance_pct, take_profit, stop_loss)
 
         self._min_volume = other_params['min_volume']

@@ -1,8 +1,10 @@
-import dateutil.parser
 import datetime
+
+import dateutil.parser
 
 BITMEX_MULTIPLIER = 0.00000001
 BITMEX_TF_MINUTES = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}
+
 
 class Balance:
     def __init__(self, info, exchange):
@@ -53,6 +55,7 @@ def tick_to_decimals(tick_size: float) -> int:
     else:
         return 0
 
+
 class Contract:
     def __init__(self, contract_info, exchange):
         if exchange == 'binance':
@@ -72,6 +75,7 @@ class Contract:
             self.quantity_decimals = tick_to_decimals(contract_info['lotSize'])
             self.tick_size = contract_info['tickSize']
             self.lot_size = contract_info['lotSize']
+
 
 class OrderStatus:
     def __init__(self, order_info, exchange):

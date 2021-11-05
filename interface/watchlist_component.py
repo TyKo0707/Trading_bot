@@ -1,11 +1,13 @@
 import tkinter as tk
 import typing
-from models import *
+
 from interface.styling import *
+from models import *
 
 
 class WatchList(tk.Frame):
-    def __init__(self, binance_contracts: typing.Dict[str, Contract], bitmex_contracts: typing.Dict[str, Contract], *args, **kwargs):
+    def __init__(self, binance_contracts: typing.Dict[str, Contract], bitmex_contracts: typing.Dict[str, Contract],
+                 *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.binance_symbols = list(binance_contracts.keys())
@@ -78,20 +80,24 @@ class WatchList(tk.Frame):
         self.body_widgets['symbol'][b_index].grid(row=b_index, column=0)
 
         self.body_widgets['exchange'][b_index] = tk.Label(self._table_frame, text=exchange, bg=BG_COLOR, fg=FG_COLOR_2,
-                                                        font=GLOBAL_FONT)
+                                                          font=GLOBAL_FONT)
         self.body_widgets['exchange'][b_index].grid(row=b_index, column=1)
 
         self.body_widgets['bid_var'][b_index] = tk.StringVar()
-        self.body_widgets['bid'][b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['bid_var'][b_index],
+        self.body_widgets['bid'][b_index] = tk.Label(self._table_frame,
+                                                     textvariable=self.body_widgets['bid_var'][b_index],
                                                      bg=BG_COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
         self.body_widgets['bid'][b_index].grid(row=b_index, column=2)
 
         self.body_widgets['ask_var'][b_index] = tk.StringVar()
-        self.body_widgets['ask'][b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['ask_var'][b_index], bg=BG_COLOR, fg=FG_COLOR_2,
+        self.body_widgets['ask'][b_index] = tk.Label(self._table_frame,
+                                                     textvariable=self.body_widgets['ask_var'][b_index], bg=BG_COLOR,
+                                                     fg=FG_COLOR_2,
                                                      font=GLOBAL_FONT)
         self.body_widgets['ask'][b_index].grid(row=b_index, column=3)
 
-        self.body_widgets['remove'][b_index] = tk.Button(self._table_frame, text='X', bg='darkred', fg=FG_COLOR, font=GLOBAL_FONT,
+        self.body_widgets['remove'][b_index] = tk.Button(self._table_frame, text='X', bg='darkred', fg=FG_COLOR,
+                                                         font=GLOBAL_FONT,
                                                          command=lambda: self._remove_symbol(b_index))
         self.body_widgets['remove'][b_index].grid(row=b_index, column=4)
 

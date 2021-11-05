@@ -13,7 +13,6 @@ class Logging(tk.Frame):
         self.logging_text.pack(side=tk.TOP)
 
     def add_log(self, message: str):
-
         """
         Add a new log message to the tk.Text widget, placed at the top, with the current UTC time in front of it.
         :param message: The new log message.

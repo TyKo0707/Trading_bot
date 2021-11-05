@@ -1,10 +1,10 @@
 import tkinter as tk
-import typing
-from strategies import TechnicalStrategy, BreakoutStrategy
-from interface.styling import *
 
-from connectors.bitmex_futures import BitmexClient
 from connectors.binance_futures import BinanceFuturesClient
+from connectors.bitmex_futures import BitmexClient
+from interface.styling import *
+from strategies import TechnicalStrategy, BreakoutStrategy
+
 
 class StrategyEditor(tk.Frame):
 
@@ -107,8 +107,10 @@ class StrategyEditor(tk.Frame):
                 self.body_widgets[code_name][b_index] = tk.Entry(self._table_frame, justify=tk.CENTER)
 
             elif base_params['widget'] == tk.Button:
-                self.body_widgets[code_name][b_index] = tk.Button(self._table_frame, text=base_params['text'], bg=base_params['bg'], fg=FG_COLOR,
-                                                    command=lambda frozen_command=base_params['command']: frozen_command(b_index))
+                self.body_widgets[code_name][b_index] = tk.Button(self._table_frame, text=base_params['text'],
+                                                                  bg=base_params['bg'], fg=FG_COLOR,
+                                                                  command=lambda frozen_command=base_params[
+                                                                      'command']: frozen_command(b_index))
 
             else:
                 continue
@@ -146,7 +148,7 @@ class StrategyEditor(tk.Frame):
 
         strat_selected = self.body_widgets['strategy_type_var'][b_index].get()
 
-        row_nb= 0
+        row_nb = 0
 
         for param in self._extra_params[strat_selected]:
             code_name = param['code_name']
@@ -155,8 +157,9 @@ class StrategyEditor(tk.Frame):
             temp_label.grid(row=row_nb, column=0)
 
             if param['widget'] == tk.Entry:
-                self._extra_input[code_name] = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER, fg=FG_COLOR,
-                                      insertbackground=FG_COLOR)
+                self._extra_input[code_name] = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER,
+                                                        fg=FG_COLOR,
+                                                        insertbackground=FG_COLOR)
                 if self._additional_parameters[b_index][code_name] is not None:
                     self._extra_input[code_name].insert(tk.END, str(self._additional_parameters[b_index][code_name]))
             else:
@@ -211,15 +214,23 @@ class StrategyEditor(tk.Frame):
         if self.body_widgets['activation'][b_index].cget('text') == 'OFF':
 
             if strat_selected == 'Technical':
-                new_object = TechnicalStrategy(contract, exchange, timeframe, balance_pct,
-                                               take_profit, stop_loss, self._additional_parameters[b_index])
+                new_strategy = TechnicalStrategy(contract, exchange, timeframe, balance_pct,
+                                                 take_profit, stop_loss, self._additional_parameters[b_index])
 
             elif strat_selected == 'Breakout':
-                new_object = BreakoutStrategy(contract, exchange, timeframe, balance_pct,
-                                               take_profit, stop_loss, self._additional_parameters[b_index])
+                new_strategy = BreakoutStrategy(contract, exchange, timeframe, balance_pct,
+                                                take_profit, stop_loss, self._additional_parameters[b_index])
 
             else:
                 return
+
+            new_strategy.candles = self._exchanges[exchange].get_historical_candles(contract, timeframe)
+
+            if len(new_strategy.candles) == 0:
+                self.root.logging_frame.add_log(f'No historical data retrieved for {contract}')
+                return
+
+            self._exchanges[exchange].strategies[b_index] = new_strategy
 
             for param in self._base_params:
                 code_name = param['code_name']
@@ -232,6 +243,8 @@ class StrategyEditor(tk.Frame):
 
         else:
 
+            del self._exchanges[exchange].strategies[b_index]
+
             for param in self._base_params:
                 code_name = param['code_name']
 
@@ -240,4 +253,3 @@ class StrategyEditor(tk.Frame):
 
             self.body_widgets['activation'][b_index].config(bg='darkred', text='OFF')
             self.root.logging_frame.add_log(f'{strat_selected} strategy on {symbol} / {timeframe} stopped')
-
