@@ -6,6 +6,7 @@ from connectors.bitmex_futures import BitmexClient
 from connectors.binance_futures import BinanceFuturesClient
 
 class StrategyEditor(tk.Frame):
+    
     def __init__(self, root, binance: BinanceFuturesClient, bitmex: BitmexClient,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
