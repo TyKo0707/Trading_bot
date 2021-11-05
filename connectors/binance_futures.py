@@ -219,6 +219,7 @@ class BinanceFuturesClient:
 
         logger.info('Binance connection is opened')
         self.subscribe_channel(list(self.contracts.values()), 'bookTicker')
+        self.subscribe_channel(list(self.contracts.values()), 'aggTrade')
 
     def _on_close(self, ws):
 
@@ -242,6 +243,13 @@ class BinanceFuturesClient:
                     else:
                         self.prices[symbol]['bid'] = float(data['b'])
                         self.prices[symbol]['ask'] = float(data['a'])
+
+            elif data['e'] == 'aggTrade':
+                symbol = data['s']
+
+                for key, strat in self.strategies.items():
+                    if strat.contract.symbol == symbol:
+                        strat.parse_trades(float(data['p']), float(data['q']), data['T'])
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
 
