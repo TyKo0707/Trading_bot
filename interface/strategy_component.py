@@ -2,14 +2,28 @@ import tkinter as tk
 import typing
 from interface.styling import *
 
+from connectors.bitmex_futures import BitmexClient
+from connectors.binance_futures import BinanceFuturesClient
+
 class StrategyEditor(tk.Frame):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, binance: BinanceFuturesClient, bitmex: BitmexClient,
+                 *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self._all_contracts = ['BTCUSDT', 'ETHUSDT']
+        self._exchanges = {'Binance': binance, 'Bitmex': bitmex}
+
+        self._all_contracts = []
         self._all_timeframes = ['1m', '5m', '15m', '30m', '1h', '4h']
 
+        for exchange, client in self._exchanges.items():
+            for symbol, contract in client.contracts.items():
+                self._all_contracts.append(symbol + '_' + exchange.capitalize())
+
         self._headers = ['Strategy', 'Contract', 'Timeframe', 'Balance %', 'TP %', 'SL %']
+
+        self._additional_parameters = dict()
+
+        self._extra_input = dict()
 
         self._base_params = [
             {'code_name': 'strategy_type', 'widget': tk.OptionMenu,
@@ -40,12 +54,12 @@ class StrategyEditor(tk.Frame):
 
         self._extra_params = {
             'Technical': [
-                {'code_name': 'ema_fast', 'name': 'MACD Fast Length', 'widget': tk.Entry, 'data': int},
-                {'code_name': 'ema_slow', 'name': 'MACD Slow Length', 'widget': tk.Entry, 'data': int},
-                {'code_name': 'ema_signal', 'name': 'MACD Signal Length', 'widget': tk.Entry, 'data': int}
+                {'code_name': 'ema_fast', 'name': 'MACD Fast Length', 'widget': tk.Entry, 'data_type': int},
+                {'code_name': 'ema_slow', 'name': 'MACD Slow Length', 'widget': tk.Entry, 'data_type': int},
+                {'code_name': 'ema_signal', 'name': 'MACD Signal Length', 'widget': tk.Entry, 'data_type': int}
             ],
             'Breakout': [
-                {'code_name': 'ьшт_мщдгьу', 'name': 'Minimun Volume', 'widget': tk.Entry, 'data': float}
+                {'code_name': 'min_volume', 'name': 'Minimum Volume', 'widget': tk.Entry, 'data_type': float}
             ]
         }
 
@@ -97,6 +111,12 @@ class StrategyEditor(tk.Frame):
 
             self.body_widgets[code_name][b_index].grid(row=b_index, column=col)
 
+        self._additional_parameters[b_index] = dict()
+
+        for strat, params in self._extra_params.items():
+            for param in params:
+                self._additional_parameters[b_index][param['code_name']] = None
+
         self._body_index += 1
 
     def _delete_row(self, b_index: int):
@@ -131,12 +151,14 @@ class StrategyEditor(tk.Frame):
             temp_label.grid(row=row_nb, column=0)
 
             if param['widget'] == tk.Entry:
-                temp_input = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER, fg=FG_COLOR,
+                self._extra_input[code_name] = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER, fg=FG_COLOR,
                                       insertbackground=FG_COLOR)
+                if self._additional_parameters[b_index][code_name] is not None:
+                    self._extra_input[code_name].insert(tk.END, str(self._additional_parameters[b_index][code_name]))
             else:
                 continue
 
-            temp_input.grid(row=row_nb, column=1)
+            self._extra_input[code_name].grid(row=row_nb, column=1)
             row_nb += 1
 
         validation_button = tk.Button(self._popup_window, text='Validate', bg=BG_COLOR_2, fg=FG_COLOR,
@@ -145,7 +167,18 @@ class StrategyEditor(tk.Frame):
         validation_button.grid(row=row_nb, column=0, columnspan=2)
 
     def _validate_parameters(self, b_index):
-        return
+
+        strat_selected = self.body_widgets['strategy_type_var'][b_index].get()
+
+        for param in self._extra_params[strat_selected]:
+            code_name = param['code_name']
+
+            if self._extra_input[code_name].get() == "":
+                self._additional_parameters[b_index][code_name] = None
+            else:
+                self._additional_parameters[b_index][code_name] = param['data_type'](self._extra_input[code_name].get())
+
+        self._popup_window.destroy()
 
     def _switch_strategy(self, b_index: int):
         return
