@@ -48,7 +48,7 @@ class BitmexClient:
         self.balances = self.get_balances()
 
         self.prices = dict()
-        self.strategies = typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
 
         self.logs = []
 

@@ -32,7 +32,7 @@ class BinanceFuturesClient:
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
         self.prices = dict()
-        self.strategies = typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
 
         self.logs = []
 

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating tabs, spaces, line breaks and other wiev parameters">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="building candles in strategies module">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connectors/bitmex_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/bitmex_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategies.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +49,7 @@
       <recent name="C:\Users\38097\Desktop\trade\connectors" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="binance_futures" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="trade" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -290,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636155168356</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="building candles in strategies module">
+      <created>1636156600161</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1636156600161</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -337,6 +345,7 @@
     <MESSAGE value="updating gitignore" />
     <MESSAGE value="updating strategies with classes for types of strategies" />
     <MESSAGE value="updating tabs, spaces, line breaks and other wiev parameters" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating tabs, spaces, line breaks and other wiev parameters" />
+    <MESSAGE value="building candles in strategies module" />
+    <option name="LAST_COMMIT_MESSAGE" value="building candles in strategies module" />
   </component>
 </project>

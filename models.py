@@ -41,6 +41,13 @@ class Candle:
             self.low = candle_info['low']
             self.close = candle_info['close']
             self.volume = candle_info['volume']
+        elif exchange == 'parse_trade':
+            self.timestamp = candle_info['ts']
+            self.open = candle_info['open']
+            self.high = candle_info['high']
+            self.low = candle_info['low']
+            self.close = candle_info['close']
+            self.volume = candle_info['volume']
 
 
 def tick_to_decimals(tick_size: float) -> int:
