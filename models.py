@@ -83,6 +83,14 @@ class Contract:
             self.tick_size = contract_info['tickSize']
             self.lot_size = contract_info['lotSize']
 
+            self.quanto = contract_info['isQuanto']
+            self.inverse = contract_info['isInverse']
+
+            self.multiplier = contract_info['multiplier'] * BITMEX_MULTIPLIER
+
+            if self.inverse:
+                self.multiplier *= -1
+
 
 class OrderStatus:
     def __init__(self, order_info, exchange):
