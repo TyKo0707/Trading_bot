@@ -220,11 +220,11 @@ class BitmexClient:
 
     def _on_close(self, ws):
 
-        logger.warning('Binance Websocket connection is closed')
+        logger.warning('Bitmex Websocket connection is closed')
 
     def _on_error(self, ws, msg: str):
 
-        logger.error('Binance connection error: %s', msg)
+        logger.error('Bitmex connection error: %s', msg)
 
     def _on_message(self, ws, msg: str):
 

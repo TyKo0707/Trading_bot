@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="errors correction">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating strategies">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/bitmex_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/bitmex_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategies.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +40,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../tr" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -49,7 +52,7 @@
       <recent name="C:\Users\38097\Desktop\trade\connectors" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.PythonApplication4">
+  <component name="RunManager" selected="Python.main">
     <configuration name="PythonApplication4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="trade" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -327,7 +330,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636299357171</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="updating strategies">
+      <created>1636331498874</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1636331498874</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -376,6 +386,7 @@
     <MESSAGE value="updating tabs, spaces, line breaks and other wiev parameters" />
     <MESSAGE value="building candles in strategies module" />
     <MESSAGE value="errors correction" />
-    <option name="LAST_COMMIT_MESSAGE" value="errors correction" />
+    <MESSAGE value="updating strategies" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating strategies" />
   </component>
 </project>

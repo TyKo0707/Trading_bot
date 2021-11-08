@@ -231,6 +231,8 @@ class StrategyEditor(tk.Frame):
                 self.root.logging_frame.add_log(f'No historical data retrieved for {contract}')
                 return
 
+            new_strategy._check_signal()
+
             self._exchanges[exchange].strategies[b_index] = new_strategy
 
             for param in self._base_params:
