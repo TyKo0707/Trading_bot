@@ -1,6 +1,8 @@
 import logging
 from typing import *
 
+import pandas as pd
+
 from models import *
 
 logger = logging.getLogger()
@@ -95,6 +97,38 @@ class TechnicalStrategy(Strategy):
         self._ema_fast = other_params['ema_fast']
         self._ema_slow = other_params['ema_slow']
         self._ema_signal = other_params['ema_signal']
+
+        self._rsi_length = other_params['rsi_length']
+
+    def _rsi(self):
+
+        close_list = []
+        for candle in self.candles:
+            close_list.append(candle.close)
+
+        closes = pd.Series(close_list)
+
+
+
+    def _macd(self) -> Tuple[float, float]:
+
+        close_list = []
+        for candle in self.candles:
+            close_list.append(candle.close)
+
+        closes = pd.Series(close_list)
+
+        ema_fast = closes.ewn(span=self._ema_fast).mean()
+        ema_slow = closes.ewn(span=self._ema_slow).mean()
+
+        macd_line = ema_fast - ema_slow
+        macd_signal = macd_line.ewm(span=self._ema_signal).mean()
+
+        return macd_line[-2], macd_signal[-2]
+
+    def _check_signal(self):
+
+        macd_line, macd_signal = self._macd()
 
 
 class BreakoutStrategy(Strategy):
