@@ -55,13 +55,14 @@ class Root(tk.Tk):
             if not log['displayed']:
                 self.logging_frame.add_log(log['log'])
                 log['displayed'] = True
+
         try:
             for key, value in self._watchlist_frame.body_widgets['symbol'].items():
 
-                symbol = self._watchlist_frame.body_widgets['symbol'][key].cget('text')
-                exchange = self._watchlist_frame.body_widgets['exchange'][key].cget('text')
+                symbol = self._watchlist_frame.body_widgets['symbol'][key].cget("text")
+                exchange = self._watchlist_frame.body_widgets['exchange'][key].cget("text")
 
-                if exchange == 'Binance':
+                if exchange == "Binance":
                     if symbol not in self.binance.contracts:
                         continue
 
@@ -73,7 +74,7 @@ class Root(tk.Tk):
 
                     prices = self.binance.prices[symbol]
 
-                elif exchange == 'Bitmex':
+                elif exchange == "Bitmex":
                     if symbol not in self.bitmex.contracts:
                         continue
 
@@ -88,14 +89,14 @@ class Root(tk.Tk):
                     continue
 
                 if prices['bid'] is not None:
-                    price_str = '{0: .{prec}f}'.format(prices['bid'], prec=precision)
+                    price_str = "{0:.{prec}f}".format(prices['bid'], prec=precision)
                     self._watchlist_frame.body_widgets['bid_var'][key].set(price_str)
-
                 if prices['ask'] is not None:
-                    price_str = '{0: .{prec}f}'.format(prices['ask'], prec=precision)
+                    price_str = "{0:.{prec}f}".format(prices['ask'], prec=precision)
                     self._watchlist_frame.body_widgets['ask_var'][key].set(price_str)
 
         except RuntimeError as e:
-            logger.error('Error while looping through watchlist dictionary: %s', e)
+            logger.error("Error while looping through watchlist dictionary: %s", e)
 
         self.after(1500, self._update_ui)
+
