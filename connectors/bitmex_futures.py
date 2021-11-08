@@ -255,11 +255,9 @@ class BitmexClient:
 
                                         if trade.contract.inverse:
                                             if trade.side == "long":
-                                                trade.pnl = (
-                                                                        1 / trade.entry_price - 1 / price) * multiplier * trade.quantity
+                                                trade.pnl = (1 / trade.entry_price - 1 / price) * multiplier * trade.quantity
                                             elif trade.side == "short":
-                                                trade.pnl = (
-                                                                        1 / price - 1 / trade.entry_price) * multiplier * trade.quantity
+                                                trade.pnl = (1 / price - 1 / trade.entry_price) * multiplier * trade.quantity
                                         else:
                                             if trade.side == "long":
                                                 trade.pnl = (price - trade.entry_price) * multiplier * trade.quantity
