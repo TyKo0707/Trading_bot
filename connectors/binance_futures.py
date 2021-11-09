@@ -294,3 +294,12 @@ class BinanceFuturesClient:
         logger.info("Binance Futures current USDT balance = %s, trade size = %s", balance, trade_size)
 
         return trade_size
+
+
+
+
+
+
+
+
+

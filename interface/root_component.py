@@ -1,34 +1,35 @@
-import logging
 import tkinter as tk
+import logging
 
-from connectors.binance_futures import BinanceFuturesClient
 from connectors.bitmex_futures import BitmexClient
-from interface.logging_component import Logging
-from interface.strategy_component import StrategyEditor
+from connectors.binance_futures import BinanceFuturesClient
+
 from interface.styling import *
-from interface.trades_component import TradesWatch
+from interface.logging_component import Logging
 from interface.watchlist_component import WatchList
+from interface.trades_component import TradesWatch
+from interface.strategy_component import StrategyEditor
+
 
 logger = logging.getLogger()
 
 
 class Root(tk.Tk):
-
-    def __init__(self, bitmex: BitmexClient, binance: BinanceFuturesClient):
+    def __init__(self, binance: BinanceFuturesClient, bitmex: BitmexClient):
         super().__init__()
 
-        self.bitmex = bitmex
         self.binance = binance
+        self.bitmex = bitmex
 
-        self.title('Trading Bot')
+        self.title("Trading Bot")
 
         self.configure(bg=BG_COLOR)
 
         self._left_frame = tk.Frame(self, bg=BG_COLOR)
         self._left_frame.pack(side=tk.LEFT)
 
-        self._right_frame = tk.Frame(self, bg=BG_COLOR_2)
-        self._right_frame.pack(side=tk.RIGHT)
+        self._right_frame = tk.Frame(self, bg=BG_COLOR)
+        self._right_frame.pack(side=tk.LEFT)
 
         self._watchlist_frame = WatchList(self.binance.contracts, self.bitmex.contracts, self._left_frame, bg=BG_COLOR)
         self._watchlist_frame.pack(side=tk.TOP)
@@ -46,6 +47,8 @@ class Root(tk.Tk):
 
     def _update_ui(self):
 
+        # Logs
+
         for log in self.bitmex.logs:
             if not log['displayed']:
                 self.logging_frame.add_log(log['log'])
@@ -56,7 +59,7 @@ class Root(tk.Tk):
                 self.logging_frame.add_log(log['log'])
                 log['displayed'] = True
 
-        # Trades and logs
+        # Trades and Logs
 
         for client in [self.binance, self.bitmex]:
 
@@ -71,17 +74,17 @@ class Root(tk.Tk):
                     for trade in strat.trades:
                         if trade.time not in self._trades_frame.body_widgets['symbol']:
                             self._trades_frame.add_trade(trade)
-                        if trade.contract.exchange == 'binance':
+
+                        if trade.contract.exchange == "binance":
                             precision = trade.contract.price_decimals
                         else:
                             precision = 8
 
-                        pnl_str = '{0:.{prec}f}'.format(trade.pnl, prec=precision)
+                        pnl_str = "{0:.{prec}f}".format(trade.pnl, prec=precision)
                         self._trades_frame.body_widgets['pnl_var'][trade.time].set(pnl_str)
                         self._trades_frame.body_widgets['status_var'][trade.time].set(trade.status.capitalize())
 
             except RuntimeError as e:
-
                 logger.error("Error while looping through strategies dictionary: %s", e)
 
         # Watchlist prices
@@ -128,5 +131,5 @@ class Root(tk.Tk):
         except RuntimeError as e:
             logger.error("Error while looping through watchlist dictionary: %s", e)
 
-        self.after(1500, self._update_ui)
 
+        self.after(1500, self._update_ui)

@@ -1,8 +1,9 @@
 import tkinter as tk
 import typing
 
-from interface.styling import *
 from models import *
+
+from interface.styling import *
 
 
 class WatchList(tk.Frame):
@@ -19,7 +20,7 @@ class WatchList(tk.Frame):
         self._table_frame = tk.Frame(self, bg=BG_COLOR)
         self._table_frame.pack(side=tk.TOP)
 
-        self._binance_label = tk.Label(self._commands_frame, text="Binance", bg=BG_COLOR, fg=FG_COLOR_2, font=BOLD_FONT)
+        self._binance_label = tk.Label(self._commands_frame, text="Binance", bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
         self._binance_label.grid(row=0, column=0)
 
         self._binance_entry = tk.Entry(self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR,
@@ -27,7 +28,7 @@ class WatchList(tk.Frame):
         self._binance_entry.bind("<Return>", self._add_binance_symbol)
         self._binance_entry.grid(row=1, column=0)
 
-        self._bitmex_label = tk.Label(self._commands_frame, text="Bitmex", bg=BG_COLOR, fg=FG_COLOR_2, font=BOLD_FONT)
+        self._bitmex_label = tk.Label(self._commands_frame, text="Bitmex", bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
         self._bitmex_label.grid(row=0, column=1)
 
         self._bitmex_entry = tk.Entry(self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR,
@@ -37,17 +38,17 @@ class WatchList(tk.Frame):
 
         self.body_widgets = dict()
 
-        self._headers = ['symbol', 'exchange', 'bid', 'ask', 'remove']
+        self._headers = ["symbol", "exchange", "bid", "ask", "remove"]
 
         for idx, h in enumerate(self._headers):
-            header = tk.Label(self._table_frame, text=h.capitalize() if h != 'remove' else '',
-                              bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
+            header = tk.Label(self._table_frame, text=h.capitalize() if h != "remove" else "", bg=BG_COLOR,
+                              fg=FG_COLOR, font=BOLD_FONT)
             header.grid(row=0, column=idx)
 
         for h in self._headers:
             self.body_widgets[h] = dict()
-            if h in ['bid', 'ask']:
-                self.body_widgets[h + '_var'] = dict()
+            if h in ["bid", "ask"]:
+                self.body_widgets[h + "_var"] = dict()
 
         self._body_index = 1
 
@@ -61,14 +62,14 @@ class WatchList(tk.Frame):
         symbol = event.widget.get()
 
         if symbol in self.binance_symbols:
-            self._add_symbol(symbol, 'Binance')
+            self._add_symbol(symbol, "Binance")
             event.widget.delete(0, tk.END)
 
     def _add_bitmex_symbol(self, event):
         symbol = event.widget.get()
 
         if symbol in self.bitmex_symbols:
-            self._add_symbol(symbol, 'Bitmex')
+            self._add_symbol(symbol, "Bitmex")
             event.widget.delete(0, tk.END)
 
     def _add_symbol(self, symbol: str, exchange: str):
@@ -91,14 +92,14 @@ class WatchList(tk.Frame):
 
         self.body_widgets['ask_var'][b_index] = tk.StringVar()
         self.body_widgets['ask'][b_index] = tk.Label(self._table_frame,
-                                                     textvariable=self.body_widgets['ask_var'][b_index], bg=BG_COLOR,
-                                                     fg=FG_COLOR_2,
-                                                     font=GLOBAL_FONT)
+                                                     textvariable=self.body_widgets['ask_var'][b_index],
+                                                     bg=BG_COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
         self.body_widgets['ask'][b_index].grid(row=b_index, column=3)
 
-        self.body_widgets['remove'][b_index] = tk.Button(self._table_frame, text='X', bg='darkred', fg=FG_COLOR,
-                                                         font=GLOBAL_FONT,
+        self.body_widgets['remove'][b_index] = tk.Button(self._table_frame, text="X",
+                                                         bg="darkred", fg=FG_COLOR, font=GLOBAL_FONT,
                                                          command=lambda: self._remove_symbol(b_index))
         self.body_widgets['remove'][b_index].grid(row=b_index, column=4)
 
         self._body_index += 1
+

@@ -4,7 +4,7 @@ import typing
 from interface.styling import *
 
 from connectors.binance_futures import BinanceFuturesClient
-from connectors.bitmex_futures import BitmexClient
+from connectors.bitmex import BitmexClient
 
 from strategies import TechnicalStrategy, BreakoutStrategy
 

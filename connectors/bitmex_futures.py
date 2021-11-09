@@ -1,35 +1,30 @@
-import collections
-import hashlib
-import hmac
-import json
 import logging
-import threading
+import requests
 import time
 import typing
-import dateutil
+
 from urllib.parse import urlencode
 
-import requests
+import hmac
+import hashlib
+
 import websocket
+import json
+
+import dateutil.parser
+
+import threading
 
 from models import *
+
 from strategies import TechnicalStrategy, BreakoutStrategy
+
 
 logger = logging.getLogger()
 
 
 class BitmexClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
-
-        """
-        See comments in the Binance connector.
-        :param public_key:
-        :param secret_key:
-        :param testnet:
-        """
-
-        self.futures = True
-        self.platform = "bitmex"  # Just to have more homogeneous connectors, even if self.platform is not used
 
         if testnet:
             self._base_url = "https://testnet.bitmex.com"
@@ -42,7 +37,6 @@ class BitmexClient:
         self._secret_key = secret_key
 
         self._ws = None
-        self.reconnect = True
 
         self.contracts = self.get_contracts()
         self.balances = self.get_balances()
@@ -58,8 +52,8 @@ class BitmexClient:
         logger.info("Bitmex Client successfully initialized")
 
     def _add_log(self, msg: str):
-        logger.info('%s', msg)
-        self.logs.append({'log': msg, 'displayed': False})
+        logger.info("%s", msg)
+        self.logs.append({"log": msg, "displayed": False})
 
     def _generate_signature(self, method: str, endpoint: str, expires: str, data: typing.Dict) -> str:
 
@@ -114,7 +108,7 @@ class BitmexClient:
             for s in instruments:
                 contracts[s['symbol']] = Contract(s, "bitmex")
 
-        return collections.OrderedDict(sorted(contracts.items()))  # Sort keys of the dictionary alphabetically
+        return contracts
 
     def get_balances(self) -> typing.Dict[str, Balance]:
         data = dict()
@@ -145,14 +139,11 @@ class BitmexClient:
 
         if raw_candles is not None:
             for c in reversed(raw_candles):
-                if c['open'] is None or c['close'] is None:  # Some candles returned by Bitmex miss data
-                    continue
                 candles.append(Candle(c, timeframe, "bitmex"))
 
         return candles
 
-    def place_order(self, contract: Contract, order_type: str, quantity: int, side: str, price=None,
-                    tif=None) -> OrderStatus:
+    def place_order(self, contract: Contract, order_type: str, quantity: int, side: str, price=None, tif=None) -> OrderStatus:
         data = dict()
 
         data['symbol'] = contract.symbol
@@ -199,7 +190,7 @@ class BitmexClient:
 
     def _start_ws(self):
         self._ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close,
-                                          on_error=self._on_error, on_message=self._on_message)
+                                         on_error=self._on_error, on_message=self._on_message)
 
         while True:
             try:
@@ -313,3 +304,16 @@ class BitmexClient:
         logger.info("Bitmex current XBT balance = %s, contracts number = %s", balance, contracts_number)
 
         return int(contracts_number)
+
+
+
+
+
+
+
+
+
+
+
+
+
