@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating strategies 5 + adding pnl to gui">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating strategies 6 + adding pnl to gui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/root_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/root_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategies.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +51,7 @@
       <recent name="C:\Users\38097\Desktop\trade\connectors" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.test">
     <configuration name="PythonApplication4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="trade" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -159,8 +159,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.PythonApplication4" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.PythonApplication4" />
         <item itemvalue="Python.bitmex_futures" />
         <item itemvalue="Python.binance_futures" />
       </list>
@@ -378,7 +378,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636410468425</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="updating strategies 6 + adding pnl to gui">
+      <created>1636491414427</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1636491414427</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -406,7 +413,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="first commit" />
     <MESSAGE value="adding functional for bitmex api module" />
     <MESSAGE value="finishing bitmex and  adding ui" />
     <MESSAGE value="adding ui" />
@@ -431,6 +437,7 @@
     <MESSAGE value="updating strategies 3 + correction" />
     <MESSAGE value="updating strategies 4 + corrections" />
     <MESSAGE value="updating strategies 5 + adding pnl to gui" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating strategies 5 + adding pnl to gui" />
+    <MESSAGE value="updating strategies 6 + adding pnl to gui" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating strategies 6 + adding pnl to gui" />
   </component>
 </project>

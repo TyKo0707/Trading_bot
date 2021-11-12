@@ -8,7 +8,7 @@ import pandas as pd
 
 from models import *
 
-if TYPE_CHECKING:
+if TYPE_CHECKING: # Import the connector class names only for typing purpose (the classes aren't actually imported)
     from connectors.bitmex_futures import BitmexClient
     from connectors.binance_futures import BinanceFuturesClient
 
@@ -128,7 +128,7 @@ class Strategy:
                         break
                 return
 
-        t = Timer(2.0, lambda: self._check_order_status(order_id))
+        t = Timer(1.0, lambda: self._check_order_status(order_id))
         t.start()
 
     def _open_position(self, signal_result: int):
@@ -154,7 +154,7 @@ class Strategy:
             if order_status.status == "filled":
                 avg_fill_price = order_status.avg_price
             else:
-                t = Timer(2.0, lambda: self._check_order_status(order_status.order_id))
+                t = Timer(1.0, lambda: self._check_order_status(order_status.order_id))
                 t.start()
 
             new_trade = Trade({"time": int(time.time() * 1000), "entry_price": avg_fill_price,

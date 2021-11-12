@@ -35,5 +35,5 @@ if __name__ == '__main__':
     binance = BinanceFuturesClient(binance_public_key, binance_secret_key, True)
     bitmex = BitmexClient(bitmex_public_key, bitmex_secret_key, True)
 
-    root = Root(bitmex, binance)
+    root = Root(binance, bitmex)
     root.mainloop()

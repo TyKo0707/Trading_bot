@@ -4,7 +4,7 @@ import typing
 from interface.styling import *
 
 from connectors.binance_futures import BinanceFuturesClient
-from connectors.bitmex import BitmexClient
+from connectors.bitmex_futures import BitmexClient
 
 from strategies import TechnicalStrategy, BreakoutStrategy
 
@@ -101,7 +101,7 @@ class StrategyEditor(tk.Frame):
                 self.body_widgets[code_name][b_index].config(width=base_param['width'])
 
             elif base_param['widget'] == tk.Entry:
-                self.body_widgets[code_name][b_index] = tk.Entry(self._table_frame, justify=tk.CENTER)
+                self.body_widgets[code_name][b_index] = tk.Entry(self._table_frame, justify=tk.CENTER )
             elif base_param['widget'] == tk.Button:
                 self.body_widgets[code_name][b_index] = tk.Button(self._table_frame, text=base_param['text'],
                                         bg=base_param['bg'], fg=FG_COLOR,
