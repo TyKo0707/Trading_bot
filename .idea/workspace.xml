@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating scrollable frame 3">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/root_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/root_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="finish scrollable frame + add onclose window">
+      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/bitmex_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/bitmex_futures.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -447,7 +446,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636838698876</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="finish scrollable frame + add onclose window">
+      <created>1636841060137</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1636841060137</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -475,7 +481,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating strategy component 1" />
     <MESSAGE value="updating strategy component 2" />
     <MESSAGE value="updating strategy component 3 and 4" />
     <MESSAGE value="finishing strategy component" />
@@ -500,6 +505,7 @@
     <MESSAGE value="updating scrollable frame 1" />
     <MESSAGE value="updating scrollable frame 2" />
     <MESSAGE value="updating scrollable frame 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating scrollable frame 3" />
+    <MESSAGE value="finish scrollable frame + add onclose window" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish scrollable frame + add onclose window" />
   </component>
 </project>
