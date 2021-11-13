@@ -4,6 +4,7 @@ import typing
 from models import *
 
 from interface.styling import *
+from interface.autocomplete_widget import Autocomplete
 
 
 class WatchList(tk.Frame):
@@ -23,7 +24,7 @@ class WatchList(tk.Frame):
         self._binance_label = tk.Label(self._commands_frame, text="Binance", bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
         self._binance_label.grid(row=0, column=0)
 
-        self._binance_entry = tk.Entry(self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR,
+        self._binance_entry = Autocomplete(self.binance_symbols, self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR,
                                        bg=BG_COLOR_2)
         self._binance_entry.bind("<Return>", self._add_binance_symbol)
         self._binance_entry.grid(row=1, column=0)
@@ -31,7 +32,7 @@ class WatchList(tk.Frame):
         self._bitmex_label = tk.Label(self._commands_frame, text="Bitmex", bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
         self._bitmex_label.grid(row=0, column=1)
 
-        self._bitmex_entry = tk.Entry(self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR,
+        self._bitmex_entry = Autocomplete(self.bitmex_symbols, self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR,
                                       bg=BG_COLOR_2)
         self._bitmex_entry.bind("<Return>", self._add_bitmex_symbol)
         self._bitmex_entry.grid(row=1, column=1)

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="adding data type entry validation">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="start creating diagram and adding autocomplete widget">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/autocomplete_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/autocomplete_widget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/watchlist_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/watchlist_component.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -396,7 +398,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636711546054</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="start creating diagram and adding autocomplete widget">
+      <created>1636809180030</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1636809180030</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -424,7 +433,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding ui" />
     <MESSAGE value="adding logging component" />
     <MESSAGE value="debug + adding watchlist component" />
     <MESSAGE value="updating watchlist" />
@@ -449,6 +457,7 @@
     <MESSAGE value="updating strategies 6 + adding pnl to gui" />
     <MESSAGE value="updating strategies 7" />
     <MESSAGE value="adding data type entry validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding data type entry validation" />
+    <MESSAGE value="start creating diagram and adding autocomplete widget" />
+    <option name="LAST_COMMIT_MESSAGE" value="start creating diagram and adding autocomplete widget" />
   </component>
 </project>
