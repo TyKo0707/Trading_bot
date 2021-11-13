@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating autocomplete widget 1">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/autocomplete_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/autocomplete_widget.py" afterDir="false" />
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="finishing autocomplete widget">
+      <change afterPath="$PROJECT_DIR$/interface/scrollable_frame.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -439,7 +438,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="debug + adding watchlist component" />
     <MESSAGE value="updating watchlist" />
     <MESSAGE value="updating watchlist 2" />
     <MESSAGE value="updating watchlist 3 + adding trading component to gui" />
@@ -464,6 +462,7 @@
     <MESSAGE value="adding data type entry validation" />
     <MESSAGE value="start creating diagram and adding autocomplete widget" />
     <MESSAGE value="updating autocomplete widget 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating autocomplete widget 1" />
+    <MESSAGE value="finishing autocomplete widget" />
+    <option name="LAST_COMMIT_MESSAGE" value="finishing autocomplete widget" />
   </component>
 </project>
