@@ -1,6 +1,8 @@
 import tkinter as tk
 import logging
 
+from tkinter.messagebox import askquestion
+
 from connectors.bitmex_futures import BitmexClient
 from connectors.binance_futures import BinanceFuturesClient
 
@@ -23,7 +25,16 @@ class Root(tk.Tk):
 
         self.title("Trading Bot")
 
+        self.protocol("WM_DELETE_WINDOW", self._ask_before_close)
+
         self.configure(bg=BG_COLOR)
+
+        self.main_menu = tk.Menu(self)
+        self.configure(menu=self.main_menu)
+
+        self.workspace_menu = tk.Menu(self.main_menu, tearoff=False)
+        self.main_menu.add_cascade(label="Workspace", menu=self.workspace_menu)
+        self.workspace_menu.add_command(label="Save workspace", command=self._save_workspace)
 
         self._left_frame = tk.Frame(self, bg=BG_COLOR)
         self._left_frame.pack(side=tk.LEFT)
@@ -44,6 +55,23 @@ class Root(tk.Tk):
         self._trades_frame.pack(side=tk.TOP)
 
         self._update_ui()
+
+    def _ask_before_close(self):
+
+        """
+        Triggered when the user click on the Close button of the interface.
+        This lets you have control over what's happening just before closing the interface.
+        :return:
+        """
+
+        result = askquestion("Confirmation", "Do you really want to exit the application?")
+        if result == "yes":
+            self.binance.reconnect = False  # Avoids the infinite reconnect loop in _start_ws()
+            self.bitmex.reconnect = False
+            self.binance._ws.close()
+            self.bitmex._ws.close()
+
+            self.destroy()
 
     def _update_ui(self):
 
