@@ -5,6 +5,7 @@ from models import *
 
 from interface.styling import *
 from interface.autocomplete_widget import Autocomplete
+from interface.scrollable_frame import ScrollableFrame
 
 
 class WatchList(tk.Frame):
@@ -41,10 +42,18 @@ class WatchList(tk.Frame):
 
         self._headers = ["symbol", "exchange", "bid", "ask", "remove"]
 
+        self._headers_frame = tk.Frame(self._table_frame, bg=BG_COLOR)
+
+        self._col_width = 11
+
         for idx, h in enumerate(self._headers):
             header = tk.Label(self._table_frame, text=h.capitalize() if h != "remove" else "", bg=BG_COLOR,
-                              fg=FG_COLOR, font=BOLD_FONT)
+                              fg=FG_COLOR, font=GLOBAL_FONT, width=self._col_width)
             header.grid(row=0, column=idx)
+
+        header = tk.Label(self._table_frame, text="", bg=BG_COLOR,
+                          fg=FG_COLOR, font=GLOBAL_FONT, width=2)
+        header.grid(row=0, column=len(self._headers))
 
         for h in self._headers:
             self.body_widgets[h] = dict()
