@@ -11,6 +11,8 @@ from interface.scrollable_frame import ScrollableFrame
 from strategies import TechnicalStrategy, BreakoutStrategy
 from utils import *
 
+from database import WorkspaceData
+
 
 if typing.TYPE_CHECKING:
     from interface.root_component import Root
@@ -21,6 +23,8 @@ class StrategyEditor(tk.Frame):
         super().__init__(*args, **kwargs)
 
         self.root = root
+
+        self.db = WorkspaceData()
 
         self._valid_integer = self.register(check_integer_format)
         self._valid_float = self.register(check_float_format)
@@ -122,7 +126,7 @@ class StrategyEditor(tk.Frame):
 
             elif base_param['widget'] == tk.Entry:
                 self.body_widgets[code_name][b_index] = tk.Entry(self._body_frame.sub_frame, justify=tk.CENTER, fg=FG_COLOR,
-                                                                 font=GLOBAL_FONT, bd=1, width=base_param['width'] + 1)
+                                                                 font=GLOBAL_FONT, bg=BG_COLOR_2, bd=1, width=base_param['width'] + 1)
 
                 if base_param['data_type'] == int:
                     self.body_widgets[code_name][b_index].config(validate='key',

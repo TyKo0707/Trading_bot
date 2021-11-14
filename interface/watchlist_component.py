@@ -7,11 +7,15 @@ from interface.styling import *
 from interface.autocomplete_widget import Autocomplete
 from interface.scrollable_frame import ScrollableFrame
 
+from database import WorkspaceData
+
 
 class WatchList(tk.Frame):
     def __init__(self, binance_contracts: typing.Dict[str, Contract], bitmex_contracts: typing.Dict[str, Contract],
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.db = WorkspaceData()
 
         self.binance_symbols = list(binance_contracts.keys())
         self.bitmex_symbols = list(bitmex_contracts.keys())
