@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating db 2">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="finishing db with autoloader">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/watchlist_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/watchlist_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -496,7 +496,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636928552349</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="finishing db with autoloader">
+      <created>1636930609792</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1636930609792</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -524,7 +531,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating tabs, spaces, line breaks and other wiev parameters" />
     <MESSAGE value="building candles in strategies module" />
     <MESSAGE value="errors correction" />
     <MESSAGE value="updating strategies" />
@@ -549,6 +555,7 @@
     <MESSAGE value="adding db" />
     <MESSAGE value="updating db 1" />
     <MESSAGE value="updating db 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating db 2" />
+    <MESSAGE value="finishing db with autoloader" />
+    <option name="LAST_COMMIT_MESSAGE" value="finishing db with autoloader" />
   </component>
 </project>

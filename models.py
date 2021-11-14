@@ -2,18 +2,22 @@ import dateutil.parser
 import datetime
 
 
-BITMEX_MULTIPLIER = 0.00000001
+BITMEX_MULTIPLIER = 0.00000001  # Converts satoshi numbers to Bitcoin on Bitmex
 BITMEX_TF_MINUTES = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}
 
 
 class Balance:
     def __init__(self, info, exchange):
-        if exchange == "binance":
+        if exchange == "binance_futures":
             self.initial_margin = float(info['initialMargin'])
             self.maintenance_margin = float(info['maintMargin'])
             self.margin_balance = float(info['marginBalance'])
             self.wallet_balance = float(info['walletBalance'])
             self.unrealized_pnl = float(info['unrealizedProfit'])
+
+        elif exchange == "binance_spot":
+            self.free = float(info['free'])
+            self.locked = float(info['locked'])
 
         elif exchange == "bitmex":
             self.initial_margin = info['initMargin'] * BITMEX_MULTIPLIER
@@ -25,7 +29,7 @@ class Balance:
 
 class Candle:
     def __init__(self, candle_info, timeframe, exchange):
-        if exchange == "binance":
+        if exchange in ["binance_futures", "binance_spot"]:
             self.timestamp = candle_info[0]
             self.open = float(candle_info[1])
             self.high = float(candle_info[2])
@@ -67,7 +71,7 @@ def tick_to_decimals(tick_size: float) -> int:
 
 class Contract:
     def __init__(self, contract_info, exchange):
-        if exchange == "binance":
+        if exchange == "binance_futures":
             self.symbol = contract_info['symbol']
             self.base_asset = contract_info['baseAsset']
             self.quote_asset = contract_info['quoteAsset']
@@ -75,6 +79,21 @@ class Contract:
             self.quantity_decimals = contract_info['quantityPrecision']
             self.tick_size = 1 / pow(10, contract_info['pricePrecision'])
             self.lot_size = 1 / pow(10, contract_info['quantityPrecision'])
+
+        elif exchange == "binance_spot":
+            self.symbol = contract_info['symbol']
+            self.base_asset = contract_info['baseAsset']
+            self.quote_asset = contract_info['quoteAsset']
+
+            # The actual lot size and tick size on Binance spot can be found in the 'filters' fields
+            # contract_info['filters'] is a list
+            for b_filter in contract_info['filters']:
+                if b_filter['filterType'] == 'PRICE_FILTER':
+                    self.tick_size = float(b_filter['tickSize'])
+                    self.price_decimals = tick_to_decimals(float(b_filter['tickSize']))
+                if b_filter['filterType'] == 'LOT_SIZE':
+                    self.lot_size = float(b_filter['stepSize'])
+                    self.quantity_decimals = tick_to_decimals(float(b_filter['stepSize']))
 
         elif exchange == "bitmex":
             self.symbol = contract_info['symbol']
@@ -98,14 +117,21 @@ class Contract:
 
 class OrderStatus:
     def __init__(self, order_info, exchange):
-        if exchange == "binance":
+        if exchange == "binance_futures":
             self.order_id = order_info['orderId']
             self.status = order_info['status'].lower()
             self.avg_price = float(order_info['avgPrice'])
+            self.executed_qty = float(order_info['executedQty'])
+        elif exchange == "binance_spot":
+            self.order_id = order_info['orderId']
+            self.status = order_info['status'].lower()
+            self.avg_price = float(order_info['avgPrice'])
+            self.executed_qty = float(order_info['executedQty'])
         elif exchange == "bitmex":
             self.order_id = order_info['orderID']
             self.status = order_info['ordStatus'].lower()
             self.avg_price = order_info['avgPx']
+            self.executed_qty = order_info['cumQty']
 
 
 class Trade:

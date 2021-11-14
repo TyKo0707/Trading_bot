@@ -1,34 +1,42 @@
+import hashlib
+import hmac
+import json
 import logging
-import requests
+import threading
 import time
 import typing
-
 from urllib.parse import urlencode
 
-import hmac
-import hashlib
-
+import requests
 import websocket
-import json
-
-import threading
 
 from models import *
-
 from strategies import TechnicalStrategy, BreakoutStrategy
-
 
 logger = logging.getLogger()
 
 
 class BinanceFuturesClient:
-    def __init__(self, public_key: str, secret_key: str, testnet: bool):
-        if testnet:
-            self._base_url = "https://testnet.binancefuture.com"
-            self._wss_url = "wss://stream.binancefuture.com/ws"
+    def __init__(self, public_key: str, secret_key: str, testnet: bool, futures: bool):
+
+        self.futures = futures
+
+        if self.futures:
+            self.platform = 'binance_futures'
+            if testnet:
+                self._base_url = "https://testnet.binancefuture.com"
+                self._wss_url = "wss://stream.binancefuture.com/ws"
+            else:
+                self._base_url = "https://fapi.binance.com"
+                self._wss_url = "wss://fstream.binance.com/ws"
         else:
-            self._base_url = "https://fapi.binance.com"
-            self._wss_url = "wss://fstream.binance.com/ws"
+            self.platform = 'binance_spot'
+            if testnet:
+                self._base_url = "https://testnet.binance.vision"
+                self._wss_url = "wss://testnet.binance.vision/ws"
+            else:
+                self._base_url = "https://api.binance.com"
+                self._wss_url = "wss://stream.binance.com:9443/ws"
 
         self._public_key = public_key
         self._secret_key = secret_key
@@ -91,14 +99,17 @@ class BinanceFuturesClient:
             return None
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
-        exchange_info = self._make_request("GET", "/fapi/v1/exchangeInfo", dict())
+        if self.futures:
+            exchange_info = self._make_request("GET", "/fapi/v1/exchangeInfo", dict())
+        else:
+            exchange_info = self._make_request("GET", "/api/v3/exchangeInfo", dict())
 
         contracts = dict()
 
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
                 if contract_data['marginAsset'] != "BUSD":
-                    contracts[contract_data['symbol']] = Contract(contract_data, "binance")
+                    contracts[contract_data['symbol']] = Contract(contract_data, self.platform)
 
         return contracts
 
@@ -108,20 +119,26 @@ class BinanceFuturesClient:
         data['interval'] = interval
         data['limit'] = 1000
 
-        raw_candles = self._make_request("GET", "/fapi/v1/klines", data)
+        if self.futures:
+            raw_candles = self._make_request("GET", "/fapi/v1/klines", data)
+        else:
+            raw_candles = self._make_request("GET", "/api/v3/klines", data)
 
         candles = []
 
         if raw_candles is not None:
             for c in raw_candles:
-                candles.append(Candle(c, interval, "binance"))
+                candles.append(Candle(c, interval, self.platform))
 
         return candles
 
     def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
         data = dict()
         data['symbol'] = contract.symbol
-        ob_data = self._make_request("GET", "/fapi/v1/ticker/bookTicker", data)
+        if self.futures:
+            ob_data = self._make_request("GET", "/fapi/v1/ticker/bookTicker", data)
+        else:
+            ob_data = self._make_request("GET", "/api/v3/ticker/bookTicker", data)
 
         if ob_data is not None:
             if contract.symbol not in self.prices:
@@ -139,11 +156,14 @@ class BinanceFuturesClient:
 
         balances = dict()
 
-        account_data = self._make_request("GET", "/fapi/v1/account", data)
+        if self.futures:
+            account_data = self._make_request("GET", "/fapi/v1/account", data)
+        else:
+            account_data = self._make_request("GET", "/api/v3/account", data)
 
         if account_data is not None:
             for a in account_data['assets']:
-                balances[a['asset']] = Balance(a, "binance")
+                balances[a['asset']] = Balance(a, self.platform)
 
         return balances
 
@@ -163,10 +183,13 @@ class BinanceFuturesClient:
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("POST", "/fapi/v1/order", data)
+        if self.futures:
+            order_status = self._make_request("POST", "/fapi/v1/order", data)
+        else:
+            order_status = self._make_request("POST", "/api/v3/order", data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status, "binance")
+            order_status = OrderStatus(order_status, self.platform)
 
         return order_status
 
@@ -179,10 +202,13 @@ class BinanceFuturesClient:
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("DELETE", "/fapi/v1/order", data)
+        if self.futures:
+            order_status = self._make_request("DELETE", "/fapi/v1/order", data)
+        else:
+            order_status = self._make_request("DELETE", "/api/v3/order", data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status, "binance")
+            order_status = OrderStatus(order_status, self.platform)
 
         return order_status
 
@@ -194,10 +220,13 @@ class BinanceFuturesClient:
         data['orderId'] = order_id
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("GET", "/fapi/v1/order", data)
+        if self.futures:
+            order_status = self._make_request("GET", "/fapi/v1/order", data)
+        else:
+            order_status = self._make_request("GET", "/api/v3/order", data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status, "binance")
+            order_status = OrderStatus(order_status, self.platform)
 
         return order_status
 
