@@ -1,18 +1,15 @@
-import tkinter as tk
-import logging
 import json
-
+import logging
+import tkinter as tk
 from tkinter.messagebox import askquestion
 
-from connectors.bitmex_futures import BitmexClient
 from connectors.binance_futures import BinanceFuturesClient
-
-from interface.styling import *
+from connectors.bitmex_futures import BitmexClient
 from interface.logging_component import Logging
-from interface.watchlist_component import WatchList
-from interface.trades_component import TradesWatch
 from interface.strategy_component import StrategyEditor
-
+from interface.styling import *
+from interface.trades_component import TradesWatch
+from interface.watchlist_component import WatchList
 
 logger = logging.getLogger()
 

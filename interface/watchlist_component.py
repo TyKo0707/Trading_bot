@@ -1,13 +1,11 @@
 import tkinter as tk
 import typing
 
-from models import *
-
-from interface.styling import *
+from database import WorkspaceData
 from interface.autocomplete_widget import Autocomplete
 from interface.scrollable_frame import ScrollableFrame
-
-from database import WorkspaceData
+from interface.styling import *
+from models import *
 
 
 class WatchList(tk.Frame):
@@ -70,6 +68,11 @@ class WatchList(tk.Frame):
                 self.body_widgets[h + "_var"] = dict()
 
         self._body_index = 0
+
+        saved_symbols = self.db.get('watchlist')
+
+        for s in saved_symbols:
+            self._add_symbol(s['symbol'], s['exchange'])
 
     def _remove_symbol(self, b_index: int):
 

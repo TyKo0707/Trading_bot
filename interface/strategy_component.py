@@ -1,18 +1,14 @@
+import json
 import tkinter as tk
 import typing
 
-from interface.styling import *
-
 from connectors.binance_futures import BinanceFuturesClient
 from connectors.bitmex_futures import BitmexClient
-
+from database import WorkspaceData
 from interface.scrollable_frame import ScrollableFrame
-
+from interface.styling import *
 from strategies import TechnicalStrategy, BreakoutStrategy
 from utils import *
-
-from database import WorkspaceData
-
 
 if typing.TYPE_CHECKING:
     from interface.root_component import Root
@@ -110,6 +106,8 @@ class StrategyEditor(tk.Frame):
                 self.body_widgets[h['code_name'] + "_var"] = dict()
 
         self._body_index = 0
+
+        self._load_workspace()
 
     def _add_strategy_row(self):
         b_index = self._body_index
@@ -290,4 +288,27 @@ class StrategyEditor(tk.Frame):
 
             self.body_widgets['activation'][b_index].config(bg="darkred", text="OFF")
             self.root.logging_frame.add_log(f"{strat_selected} strategy on {symbol} / {timeframe} stopped")
+
+
+    def _load_workspace(self):
+
+        data = self.db.get('strategies')
+
+        for row in data:
+            self._add_strategy_row()
+
+            b_index = self._body_index - 1
+
+            for base_param in self._base_params:
+                code_name = base_param['code_name']
+
+                if base_param['widget'] == tk.OptionMenu and row[code_name] is not None:
+                    self.body_widgets[code_name + '_var'][b_index].set(row[code_name])
+                elif base_param['widget'] == tk.Entry and row[code_name] is not None:
+                    self.body_widgets[code_name][b_index].insert(tk.END, row[code_name])
+
+            extra_params = json.loads(row['extra_params'])
+
+            for param, value in extra_params.items():
+                self.additional_parameters[b_index][param] = value
 
