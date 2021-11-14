@@ -2,6 +2,7 @@ import logging
 import requests
 import time
 import typing
+import collections
 
 from urllib.parse import urlencode
 
@@ -26,6 +27,16 @@ logger = logging.getLogger()
 class BitmexClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
 
+        """
+        See comments in the Binance connector.
+        :param public_key:
+        :param secret_key:
+        :param testnet:
+        """
+
+        self.futures = True
+        self.platform = "bitmex"  # Just to have more homogeneous connectors, even if self.platform is not used
+
         if testnet:
             self._base_url = "https://testnet.bitmex.com"
             self._wss_url = "wss://testnet.bitmex.com/realtime"
@@ -36,7 +47,7 @@ class BitmexClient:
         self._public_key = public_key
         self._secret_key = secret_key
 
-        self._ws: websocket.WebSocketApp
+        self.ws: websocket.WebSocketApp
         self.reconnect = True
 
         self.contracts = self.get_contracts()
@@ -109,7 +120,7 @@ class BitmexClient:
             for s in instruments:
                 contracts[s['symbol']] = Contract(s, "bitmex")
 
-        return contracts
+        return collections.OrderedDict(sorted(contracts.items()))  # Sort keys of the dictionary alphabetically
 
     def get_balances(self) -> typing.Dict[str, Balance]:
         data = dict()
@@ -140,6 +151,8 @@ class BitmexClient:
 
         if raw_candles is not None:
             for c in reversed(raw_candles):
+                if c['open'] is None or c['close'] is None:  # Some candles returned by Bitmex miss data
+                    continue
                 candles.append(Candle(c, timeframe, "bitmex"))
 
         return candles
@@ -190,13 +203,13 @@ class BitmexClient:
                     return OrderStatus(order, "bitmex")
 
     def _start_ws(self):
-        self._ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close,
+        self.ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close,
                                          on_error=self._on_error, on_message=self._on_message)
 
         while True:
             try:
                 if self.reconnect:
-                    self._ws.run_forever()
+                    self.ws.run_forever()
                 else:
                     break
             except Exception as e:
@@ -281,11 +294,20 @@ class BitmexClient:
         data['args'].append(topic)
 
         try:
-            self._ws.send(json.dumps(data))
+            self.ws.send(json.dumps(data))
         except Exception as e:
             logger.error("Websocket error while subscribing to %s: %s", topic, e)
 
     def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
+
+        """
+        Compute the trade size for the strategy module based on the percentage of the balance to use
+        that was defined in the strategy component and the type of contract.
+        :param contract:
+        :param price: Used to convert the amount to invest into an amount to buy/sell
+        :param balance_pct:
+        :return:
+        """
 
         balance = self.get_balances()
         if balance is not None:
@@ -297,6 +319,9 @@ class BitmexClient:
             return None
 
         xbt_size = balance * balance_pct / 100
+
+        # The trade size calculation depends on the type of contract
+        # https://www.bitmex.com/app/perpetualContractsGuide
 
         if contract.inverse:
             contracts_number = xbt_size / (contract.multiplier / price)

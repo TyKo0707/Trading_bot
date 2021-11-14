@@ -8,18 +8,18 @@ import pandas as pd
 
 from models import *
 
-if TYPE_CHECKING: # Import the connector class names only for typing purpose (the classes aren't actually imported)
-    from connectors.bitmex_futures import BitmexClient
-    from connectors.binance_futures import BinanceFuturesClient
+if TYPE_CHECKING:  # Import the connector class names only for typing purpose (the classes aren't actually imported)
+    from connectors.bitmex import BitmexClient
+    from connectors.binance import BinanceClient
 
 logger = logging.getLogger()
 
-
-TF_EQUIV = {"1m": 60, "5m": 300, "15m": 900, "30m": 900, "1h": 3600, "4h": 14400}
+# TF_EQUIV is used in parse_trades() to compare the last candle timestamp to the new trade timestamp
+TF_EQUIV = {"1m": 60, "5m": 300, "15m": 900, "30m": 1800, "1h": 3600, "4h": 14400}
 
 
 class Strategy:
-    def __init__(self, client: Union["BitmexClient", "BinanceFuturesClient"], contract: Contract, exchange: str,
+    def __init__(self, client: Union["BitmexClient", "BinanceClient"], contract: Contract, exchange: str,
                  timeframe: str, balance_pct: float, take_profit: float, stop_loss: float, strat_name):
 
         self.client = client
@@ -32,7 +32,7 @@ class Strategy:
         self.take_profit = take_profit
         self.stop_loss = stop_loss
 
-        self.stat_name = strat_name
+        self.strat_name = strat_name
 
         self.ongoing_position = False
 
@@ -45,6 +45,14 @@ class Strategy:
         self.logs.append({"log": msg, "displayed": False})
 
     def parse_trades(self, price: float, size: float, timestamp: int) -> str:
+
+        """
+        Parse new trades coming in from the websocket and update the Candle list based on the timestamp.
+        :param price: The trade price
+        :param size: The trade size
+        :param timestamp: Unix timestamp in milliseconds
+        :return:
+        """
 
         timestamp_diff = int(time.time() * 1000) - timestamp
         if timestamp_diff >= 2000:
@@ -115,6 +123,12 @@ class Strategy:
 
     def _check_order_status(self, order_id):
 
+        """
+        Called regularly after an order has been placed, until it is filled.
+        :param order_id: The order id to check.
+        :return:
+        """
+
         order_status = self.client.get_order_status(self.contract, order_id)
 
         if order_status is not None:
@@ -125,13 +139,24 @@ class Strategy:
                 for trade in self.trades:
                     if trade.entry_id == order_id:
                         trade.entry_price = order_status.avg_price
+                        trade.quantity = order_status.executed_qty
                         break
                 return
 
-        t = Timer(1.0, lambda: self._check_order_status(order_id))
+        t = Timer(2.0, lambda: self._check_order_status(order_id))
         t.start()
 
     def _open_position(self, signal_result: int):
+
+        """
+        Open Long or Short position based on the signal result.
+        :param signal_result: 1 (Long) or -1 (Short)
+        :return:
+        """
+
+        # Short is not allowed on Spot platforms
+        if self.client.platform == "binance_spot" and signal_result == -1:
+            return
 
         trade_size = self.client.get_trade_size(self.contract, self.candles[-1].close, self.balance_pct)
         if trade_size is None:
@@ -154,15 +179,21 @@ class Strategy:
             if order_status.status == "filled":
                 avg_fill_price = order_status.avg_price
             else:
-                t = Timer(1.0, lambda: self._check_order_status(order_status.order_id))
+                t = Timer(2.0, lambda: self._check_order_status(order_status.order_id))
                 t.start()
 
             new_trade = Trade({"time": int(time.time() * 1000), "entry_price": avg_fill_price,
-                               "contract": self.contract, "strategy": self.stat_name, "side": position_side,
-                               "status": "open", "pnl": 0, "quantity": trade_size, "entry_id": order_status.order_id})
+                               "contract": self.contract, "strategy": self.strat_name, "side": position_side,
+                               "status": "open", "pnl": 0, "quantity": order_status.executed_qty, "entry_id": order_status.order_id})
             self.trades.append(new_trade)
 
     def _check_tp_sl(self, trade: Trade):
+
+        """
+        Based on the average entry price, calculates whether the defined stop loss or take profit has been reached.
+        :param trade:
+        :return:
+        """
 
         tp_triggered = False
         sl_triggered = False
@@ -187,9 +218,18 @@ class Strategy:
 
         if tp_triggered or sl_triggered:
 
-            self._add_log(f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf}")
+            self._add_log(f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf} "
+                          f"| Current Price = {price} (Entry price was {trade.entry_price})")
 
             order_side = "SELL" if trade.side == "long" else "BUY"
+
+            if not self.client.futures:
+                # Make sure we don't sell more than what's in the available balance on Binance Spot
+                current_balances = self.client.get_balances()
+                if current_balances is not None:
+                    if order_side == "SELL" and self.contract.base_asset in current_balances:
+                        trade.quantity = min(current_balances[self.contract.base_asset].free, trade.quantity)
+
             order_status = self.client.place_order(self.contract, "MARKET", trade.quantity, order_side)
 
             if order_status is not None:
@@ -209,23 +249,30 @@ class TechnicalStrategy(Strategy):
 
         self._rsi_length = other_params['rsi_length']
 
-    def _rsi(self):
+    def _rsi(self) -> float:
+
+        """
+        Compute the Relative Strength Index.
+        :return: The RSI value of the previous candlestick
+        """
+
         close_list = []
         for candle in self.candles:
             close_list.append(candle.close)
 
         closes = pd.Series(close_list)
 
+        # Calculate the different between the value of one row and the value of the row before
         delta = closes.diff().dropna()
 
         up, down = delta.copy(), delta.copy()
         up[up < 0] = 0
-        down[down > 0] = 0
+        down[down > 0] = 0  # Keep only the negative change, others are set to 0
 
         avg_gain = up.ewm(com=(self._rsi_length - 1), min_periods=self._rsi_length).mean()
         avg_loss = down.abs().ewm(com=(self._rsi_length - 1), min_periods=self._rsi_length).mean()
 
-        rs = avg_gain / avg_loss
+        rs = avg_gain / avg_loss  # Relative Strength
 
         rsi = 100 - 100 / (1 + rs)
         rsi = rsi.round(2)
@@ -234,13 +281,18 @@ class TechnicalStrategy(Strategy):
 
     def _macd(self) -> Tuple[float, float]:
 
+        """
+        Compute the MACD and its Signal line.
+        :return: The MACD and the MACD Signal value of the previous candlestick
+        """
+
         close_list = []
         for candle in self.candles:
-            close_list.append(candle.close)
+            close_list.append(candle.close)  # Use only the close price of each candlestick for the calculations
 
-        closes = pd.Series(close_list)
+        closes = pd.Series(close_list)  # Converts the close prices list to a pandas Series.
 
-        ema_fast = closes.ewm(span=self._ema_fast).mean()
+        ema_fast = closes.ewm(span=self._ema_fast).mean()  # Exponential Moving Average method
         ema_slow = closes.ewm(span=self._ema_slow).mean()
 
         macd_line = ema_fast - ema_slow
@@ -249,6 +301,12 @@ class TechnicalStrategy(Strategy):
         return macd_line.iloc[-2], macd_signal.iloc[-2]
 
     def _check_signal(self):
+
+        """
+        Compute technical indicators and compare their value to some predefined levels to know whether to go Long,
+        Short, or do nothing.
+        :return: 1 for a Long signal, -1 for a Short signal, 0 for no signal
+        """
 
         macd_line, macd_signal = self._macd()
         rsi = self._rsi()
@@ -261,6 +319,14 @@ class TechnicalStrategy(Strategy):
             return 0
 
     def check_trade(self, tick_type: str):
+
+        """
+        To be triggered from the websocket _on_message() methods. Triggered only once per candlestick to avoid
+        constantly calculating the indicators. A trade can occur only if the is no open position at the moment.
+        :param tick_type: same_candle or new_candle
+        :return:
+        """
+
         if tick_type == "new_candle" and not self.ongoing_position:
             signal_result = self._check_signal()
 
@@ -277,6 +343,11 @@ class BreakoutStrategy(Strategy):
 
     def _check_signal(self) -> int:
 
+        """
+        Use candlesticks OHLC data to define Long or Short patterns.
+        :return: 1 for a Long signal, -1 for a Short signal, 0 for no signal
+        """
+
         if self.candles[-1].close > self.candles[-2].high and self.candles[-1].volume > self._min_volume:
             return 1
         elif self.candles[-1].close < self.candles[-2].low and self.candles[-1].volume > self._min_volume:
@@ -285,6 +356,12 @@ class BreakoutStrategy(Strategy):
             return 0
 
     def check_trade(self, tick_type: str):
+
+        """
+        To be triggered from the websocket _on_message() methods
+        :param tick_type: same_candle or new_candle
+        :return:
+        """
 
         if not self.ongoing_position:
             signal_result = self._check_signal()

@@ -1,21 +1,27 @@
-import json
 import tkinter as tk
 import typing
+import tkmacosx as tkmac
 
-from connectors.binance_futures import BinanceFuturesClient
-from connectors.bitmex_futures import BitmexClient
-from database import WorkspaceData
-from interface.scrollable_frame import ScrollableFrame
+import json
+
 from interface.styling import *
+from interface.scrollable_frame import ScrollableFrame
+
+from connectors.binance_futures import BinanceClient
+from connectors.bitmex_futures import BitmexClient
+
 from strategies import TechnicalStrategy, BreakoutStrategy
 from utils import *
+
+from database import WorkspaceData
+
 
 if typing.TYPE_CHECKING:
     from interface.root_component import Root
 
 
 class StrategyEditor(tk.Frame):
-    def __init__(self, root: "Root", binance: BinanceFuturesClient, bitmex: BitmexClient, *args, **kwargs):
+    def __init__(self, root: "Root", binance: BinanceClient, bitmex: BitmexClient, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.root = root
@@ -68,7 +74,7 @@ class StrategyEditor(tk.Frame):
             {"code_name": "parameters", "widget": tk.Button, "data_type": float, "text": "Parameters",
              "bg": BG_COLOR_2, "command": self._show_popup, "header": "", "width": 10},
             {"code_name": "activation", "widget": tk.Button, "data_type": float, "text": "OFF",
-             "bg": "darkred", "command": self._switch_strategy, "header": "", "width": 8},
+             "bg": "darkred", "command": self._switch_strategy, "header": "", "width" : 8},
             {"code_name": "delete", "widget": tk.Button, "data_type": float, "text": "X",
              "bg": "darkred", "command": self._delete_row, "header": "", "width": 6},
 
@@ -89,11 +95,11 @@ class StrategyEditor(tk.Frame):
         for idx, h in enumerate(self._base_params):
             header = tk.Label(self._headers_frame, text=h['header'], bg=BG_COLOR, fg=FG_COLOR, font=GLOBAL_FONT,
                               width=h['width'], bd=1, relief=tk.FLAT)
-            header.grid(row=0, column=idx, padx=1)
+            header.grid(row=0, column=idx, padx=2)
 
         header = tk.Label(self._headers_frame, text="", bg=BG_COLOR, fg=FG_COLOR, font=GLOBAL_FONT,
                           width=8, bd=1, relief=tk.FLAT)
-        header.grid(row=0, column=len(self._base_params), padx=1)
+        header.grid(row=0, column=len(self._base_params), padx=2)
 
         self._headers_frame.pack(side=tk.TOP, anchor="nw")
 
@@ -110,6 +116,16 @@ class StrategyEditor(tk.Frame):
         self._load_workspace()
 
     def _add_strategy_row(self):
+
+        """
+        Add a new row with widgets defined in the self._base_params list.
+        Aligning these widgets with the headers (that are in another frame) can be tricky.
+        List of arguments having an influence on the widgets width: bd, indicatoron, width, font, highlightthickness
+        This is because the widgets are of different types (the headers are Labels and the body widgets can be Buttons...
+        Mac OSX/Windows also has an influence on the widget style and thus width.
+        :return:
+        """
+
         b_index = self._body_index
 
         for col, base_param in enumerate(self._base_params):
@@ -120,29 +136,26 @@ class StrategyEditor(tk.Frame):
                 self.body_widgets[code_name][b_index] = tk.OptionMenu(self._body_frame.sub_frame,
                                                                       self.body_widgets[code_name + "_var"][b_index],
                                                                       *base_param['values'])
-                self.body_widgets[code_name][b_index].config(width=base_param['width'] + 2, bd=0, indicatoron=0)
+                self.body_widgets[code_name][b_index].config(width=base_param['width'], bd=0, indicatoron=0)
 
             elif base_param['widget'] == tk.Entry:
-                self.body_widgets[code_name][b_index] = tk.Entry(self._body_frame.sub_frame, justify=tk.CENTER, fg=FG_COLOR,
-                                                                 font=GLOBAL_FONT, bg=BG_COLOR_2, bd=1, width=base_param['width'] + 1)
+                self.body_widgets[code_name][b_index] = tk.Entry(self._body_frame.sub_frame, justify=tk.CENTER,
+                                                                 bg=BG_COLOR_2, fg=FG_COLOR,
+                                                                 font=GLOBAL_FONT, bd=1, width=base_param['width'])
 
                 if base_param['data_type'] == int:
-                    self.body_widgets[code_name][b_index].config(validate='key',
-                                                                 validatecommand=(self._valid_integer, "%P"))
+                    self.body_widgets[code_name][b_index].config(validate='key', validatecommand=(self._valid_integer, "%P"))
                 elif base_param['data_type'] == float:
-                    self.body_widgets[code_name][b_index].config(validate='key',
-                                                                 validatecommand=(self._valid_float, "%P"))
+                    self.body_widgets[code_name][b_index].config(validate='key', validatecommand=(self._valid_float, "%P"))
 
             elif base_param['widget'] == tk.Button:
                 self.body_widgets[code_name][b_index] = tk.Button(self._body_frame.sub_frame, text=base_param['text'],
-                                                                  bg=base_param['bg'], fg=FG_COLOR, font=GLOBAL_FONT,
-                                                                  width=base_param['width'],
-                                                                  command=lambda frozen_command=base_param[
-                                                                      'command']: frozen_command(b_index))
+                                        bg=base_param['bg'], fg=FG_COLOR, font=GLOBAL_FONT, width=base_param['width'],
+                                        command=lambda frozen_command=base_param['command']: frozen_command(b_index))
             else:
                 continue
 
-            self.body_widgets[code_name][b_index].grid(row=b_index, column=col, padx=1)
+            self.body_widgets[code_name][b_index].grid(row=b_index, column=col, padx=2)
 
         self.additional_parameters[b_index] = dict()
 
@@ -154,12 +167,26 @@ class StrategyEditor(tk.Frame):
 
     def _delete_row(self, b_index: int):
 
+        """
+        Triggered when the user clicks the X button.
+        The row below the one deleted will automatically adjust and take its place, independently of its b_index.
+        :param b_index:
+        :return:
+        """
+
         for element in self._base_params:
             self.body_widgets[element['code_name']][b_index].grid_forget()
 
             del self.body_widgets[element['code_name']][b_index]
 
     def _show_popup(self, b_index: int):
+
+        """
+        Display a popup window with additional parameters that are specific to the strategy selected.
+        This avoids overloading the strategy component with too many tk.Entry boxes.
+        :param b_index:
+        :return:
+        """
 
         x = self.body_widgets["parameters"][b_index].winfo_rootx()
         y = self.body_widgets["parameters"][b_index].winfo_rooty()
@@ -185,13 +212,13 @@ class StrategyEditor(tk.Frame):
 
             if param['widget'] == tk.Entry:
                 self._extra_input[code_name] = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER, fg=FG_COLOR,
-                                      insertbackground=FG_COLOR)
+                                                        insertbackground=FG_COLOR, highlightthickness=False)
 
+                # Sets the data validation function based on the data_type chosen
                 if param['data_type'] == int:
-                    self._extra_input[code_name].config(validate='key', validatecommand=(self._valid_integer, '%P'))
-
-                if param['data_type'] == float:
-                    self._extra_input[code_name].config(validate='key', validatecommand=(self._valid_float, '%P'))
+                    self._extra_input[code_name].config(validate='key', validatecommand=(self._valid_integer, "%P"))
+                elif param['data_type'] == float:
+                    self._extra_input[code_name].config(validate='key', validatecommand=(self._valid_float, "%P"))
 
                 if self.additional_parameters[b_index][code_name] is not None:
                     self._extra_input[code_name].insert(tk.END, str(self.additional_parameters[b_index][code_name]))
@@ -210,6 +237,12 @@ class StrategyEditor(tk.Frame):
 
     def _validate_parameters(self, b_index: int):
 
+        """
+        Record the parameters set in the popup window and close it.
+        :param b_index:
+        :return:
+        """
+
         strat_selected = self.body_widgets['strategy_type_var'][b_index].get()
 
         for param in self.extra_params[strat_selected]:
@@ -223,6 +256,13 @@ class StrategyEditor(tk.Frame):
         self._popup_window.destroy()
 
     def _switch_strategy(self, b_index: int):
+
+        """
+        Triggered when the user presses the ON/OFF button.
+        Collects initial historical data (hence why there is a small delay on the interface after you click).
+        :param b_index:
+        :return:
+        """
 
         for param in ["balance_pct", "take_profit", "stop_loss"]:
             if self.body_widgets[param][b_index].get() == "":
@@ -257,6 +297,9 @@ class StrategyEditor(tk.Frame):
             else:
                 return
 
+            # Collects historical data. It is just one API call so that is ok, but be careful not to call methods
+            # that would lock the UI for too long.
+            # For example don't make a query to a database containing billions of rows, your interface would freeze.
             new_strategy.candles = self._exchanges[exchange].get_historical_candles(contract, timeframe)
 
             if len(new_strategy.candles) == 0:
@@ -265,6 +308,7 @@ class StrategyEditor(tk.Frame):
 
             if exchange == "Binance":
                 self._exchanges[exchange].subscribe_channel([contract], "aggTrade")
+                self._exchanges[exchange].subscribe_channel([contract], "bookTicker")
 
             self._exchanges[exchange].strategies[b_index] = new_strategy
 
@@ -272,7 +316,7 @@ class StrategyEditor(tk.Frame):
                 code_name = param['code_name']
 
                 if code_name != "activation" and "_var" not in code_name:
-                    self.body_widgets[code_name][b_index].config(state=tk.DISABLED)
+                    self.body_widgets[code_name][b_index].config(state=tk.DISABLED)  # Locks the widgets of this row
 
             self.body_widgets['activation'][b_index].config(bg="darkgreen", text="ON")
             self.root.logging_frame.add_log(f"{strat_selected} strategy on {symbol} / {timeframe} started")
@@ -289,26 +333,33 @@ class StrategyEditor(tk.Frame):
             self.body_widgets['activation'][b_index].config(bg="darkred", text="OFF")
             self.root.logging_frame.add_log(f"{strat_selected} strategy on {symbol} / {timeframe} stopped")
 
-
     def _load_workspace(self):
 
-        data = self.db.get('strategies')
+        """
+        Add the rows and fill them with data saved in the database
+        :return:
+        """
+
+        data = self.db.get("strategies")
 
         for row in data:
             self._add_strategy_row()
 
-            b_index = self._body_index - 1
+            b_index = self._body_index - 1  # -1 to select the row that was just added
 
             for base_param in self._base_params:
                 code_name = base_param['code_name']
 
                 if base_param['widget'] == tk.OptionMenu and row[code_name] is not None:
-                    self.body_widgets[code_name + '_var'][b_index].set(row[code_name])
+                    self.body_widgets[code_name + "_var"][b_index].set(row[code_name])
                 elif base_param['widget'] == tk.Entry and row[code_name] is not None:
                     self.body_widgets[code_name][b_index].insert(tk.END, row[code_name])
 
             extra_params = json.loads(row['extra_params'])
 
             for param, value in extra_params.items():
-                self.additional_parameters[b_index][param] = value
+                if value is not None:
+                    self.additional_parameters[b_index][param] = value
+
+
 

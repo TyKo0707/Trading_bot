@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from connectors.binance_futures import BinanceFuturesClient
+from connectors.binance_futures import BinanceClient
 from connectors.bitmex_futures import BitmexClient
 from interface.root_component import Root
 
@@ -32,7 +32,7 @@ logger.addHandler(stream_handler)
 logger.addHandler(file_handler)
 
 if __name__ == '__main__':
-    binance = BinanceFuturesClient(binance_public_key, binance_secret_key, True)
+    binance = BinanceClient(binance_public_key, binance_secret_key, True, True)
     bitmex = BitmexClient(bitmex_public_key, bitmex_secret_key, True)
 
     root = Root(binance, bitmex)
