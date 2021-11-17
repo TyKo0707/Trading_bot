@@ -151,9 +151,9 @@ class BinanceClient:
         """
 
         if self.futures:
-            exchange_info = self._make_request("GET", "/fapi/v1/exchangeInfo", dict())
+            exchange_info = self.make_request("GET", "/fapi/v1/exchangeInfo", dict())
         else:
-            exchange_info = self._make_request("GET", "/api/v3/exchangeInfo", dict())
+            exchange_info = self.make_request("GET", "/api/v3/exchangeInfo", dict())
 
         contracts = dict()
 
@@ -178,9 +178,9 @@ class BinanceClient:
         data['limit'] = 1000  # The maximum number of candles is 1000 on Binance Spot
 
         if self.futures:
-            raw_candles = self._make_request("GET", "/fapi/v1/klines", data)
+            raw_candles = self.make_request("GET", "/fapi/v1/klines", data)
         else:
-            raw_candles = self._make_request("GET", "/api/v3/klines", data)
+            raw_candles = self.make_request("GET", "/api/v3/klines", data)
 
         candles = []
 
@@ -203,9 +203,9 @@ class BinanceClient:
         data['symbol'] = contract.symbol
 
         if self.futures:
-            ob_data = self._make_request("GET", "/fapi/v1/ticker/bookTicker", data)
+            ob_data = self.make_request("GET", "/fapi/v1/ticker/bookTicker", data)
         else:
-            ob_data = self._make_request("GET", "/api/v3/ticker/bookTicker", data)
+            ob_data = self.make_request("GET", "/api/v3/ticker/bookTicker", data)
 
         if ob_data is not None:
             if contract.symbol not in self.prices:  # Add the symbol to the dictionary if needed
@@ -230,9 +230,9 @@ class BinanceClient:
         balances = dict()
 
         if self.futures:
-            account_data = self._make_request("GET", "/fapi/v1/account", data)
+            account_data = self.make_request("GET", "/fapi/v1/account", data)
         else:
-            account_data = self._make_request("GET", "/api/v3/account", data)
+            account_data = self.make_request("GET", "/api/v3/account", data)
 
         if account_data is not None:
             if self.futures:
@@ -274,9 +274,9 @@ class BinanceClient:
         data['signature'] = self._generate_signature(data)
 
         if self.futures:
-            order_status = self._make_request("POST", "/fapi/v1/order", data)
+            order_status = self.make_request("POST", "/fapi/v1/order", data)
         else:
-            order_status = self._make_request("POST", "/api/v3/order", data)
+            order_status = self.make_request("POST", "/api/v3/order", data)
 
         if order_status is not None:
 
@@ -300,9 +300,9 @@ class BinanceClient:
         data['signature'] = self._generate_signature(data)
 
         if self.futures:
-            order_status = self._make_request("DELETE", "/fapi/v1/order", data)
+            order_status = self.make_request("DELETE", "/fapi/v1/order", data)
         else:
-            order_status = self._make_request("DELETE", "/api/v3/order", data)
+            order_status = self.make_request("DELETE", "/api/v3/order", data)
 
         if order_status is not None:
             if not self.futures:
@@ -327,7 +327,7 @@ class BinanceClient:
         data['symbol'] = contract.symbol
         data['signature'] = self._generate_signature(data)
 
-        trades = self._make_request("GET", "/api/v3/myTrades", data)
+        trades = self.make_request("GET", "/api/v3/myTrades", data)
 
         avg_price = 0
 
@@ -354,9 +354,9 @@ class BinanceClient:
         data['signature'] = self._generate_signature(data)
 
         if self.futures:
-            order_status = self._make_request("GET", "/fapi/v1/order", data)
+            order_status = self.make_request("GET", "/fapi/v1/order", data)
         else:
-            order_status = self._make_request("GET", "/api/v3/order", data)
+            order_status = self.make_request("GET", "/api/v3/order", data)
 
         if order_status is not None:
             if not self.futures:
