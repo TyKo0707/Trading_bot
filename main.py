@@ -1,6 +1,6 @@
 import logging
 import os
-# MMM
+# M
 from dotenv import load_dotenv
 
 from connectors.binance_futures import BinanceClient
