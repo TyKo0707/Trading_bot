@@ -32,7 +32,7 @@ class BinanceClient:
         :param testnet:
         :param futures: if False, the Client will be a Spot API Client
         """
-
+        self.loop = asyncio.get_event_loop()
         self.futures = futures
 
         if self.futures:
@@ -97,7 +97,7 @@ class BinanceClient:
 
         return hmac.new(self._secret_key.encode(), urlencode(data).encode(), hashlib.sha256).hexdigest()
 
-    def _make_request(self, method: str, endpoint: str, data: typing.Dict):
+    async def _make_request(self, method: str, endpoint: str, data: typing.Dict):
 
         """
         Wrapper that normalizes the requests to the REST API and error handling.
@@ -139,6 +139,9 @@ class BinanceClient:
             logger.error("Error while making %s request to %s: %s (error code %s)",
                          method, endpoint, request_json, response.status)
             return None
+
+    def make_request(self, method: str, endpoint: str, data: typing.Dict):
+        return self.loop.run_until_complete(self._make_request(method, endpoint, data))
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
 
