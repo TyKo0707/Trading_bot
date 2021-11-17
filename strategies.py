@@ -9,8 +9,8 @@ import pandas as pd
 from models import *
 
 if TYPE_CHECKING:  # Import the connector class names only for typing purpose (the classes aren't actually imported)
-    from connectors.bitmex import BitmexClient
-    from connectors.binance import BinanceClient
+    from connectors.bitmex_futures import BitmexClient
+    from connectors.binance_futures import BinanceClient
 
 logger = logging.getLogger()
 
