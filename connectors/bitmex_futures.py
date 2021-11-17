@@ -3,7 +3,8 @@ import requests
 import time
 import typing
 import collections
-
+import aiohttp
+import asyncio
 from urllib.parse import urlencode
 
 import hmac

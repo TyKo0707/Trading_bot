@@ -3,7 +3,8 @@ import requests
 import time
 import typing
 import collections
-
+import aiohttp
+import asyncio
 from urllib.parse import urlencode
 
 import hmac
@@ -108,32 +109,35 @@ class BinanceClient:
 
         if method == "GET":
             try:
-                response = requests.get(self._base_url + endpoint, params=data, headers=self._headers)
+                async with aiohttp.ClientSession() as session:
+                    response = await session.get(self._base_url + endpoint, params=data, headers=self._headers)
             except Exception as e:  # Takes into account any possible error, most likely network errors
                 logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                 return None
 
         elif method == "POST":
             try:
-                response = requests.post(self._base_url + endpoint, params=data, headers=self._headers)
+                async with aiohttp.ClientSession() as session:
+                    response = await session.post(self._base_url + endpoint, params=data, headers=self._headers)
             except Exception as e:
                 logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                 return None
 
         elif method == "DELETE":
             try:
-                response = requests.delete(self._base_url + endpoint, params=data, headers=self._headers)
+                async with aiohttp.ClientSession() as session:
+                    response = await session.delete(self._base_url + endpoint, params=data, headers=self._headers)
             except Exception as e:
                 logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                 return None
         else:
             raise ValueError()
-
-        if response.status_code == 200:  # 200 is the response code of successful requests
-            return response.json()
+        request_json = await response.json()
+        if response.status == 200:  # 200 is the response code of successful requests
+            return request_json
         else:
             logger.error("Error while making %s request to %s: %s (error code %s)",
-                         method, endpoint, response.json(), response.status_code)
+                         method, endpoint, request_json, response.status)
             return None
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
