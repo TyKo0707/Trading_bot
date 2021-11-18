@@ -80,36 +80,39 @@ class BitmexClient:
         headers['api-expires'] = expires
         headers['api-key'] = self._public_key
         headers['api-signature'] = self._generate_signature(method, endpoint, expires, data)
+        async with aiohttp.ClientSession() as session:
+            if method == "GET":
+                try:
+                    async with session.get(self._base_url + endpoint, params=data, headers=headers) as resp:
+                        resp_json = await resp.json()
+                except Exception as e:
+                    logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+                    return None
 
-        if method == "GET":
-            try:
-                response = requests.get(self._base_url + endpoint, params=data, headers=headers)
-            except Exception as e:
-                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+            elif method == "POST":
+                try:
+                    async with session.post(self._base_url + endpoint, params=data, headers=headers) as resp:
+                        resp_json = await resp.json()
+                except Exception as e:
+                    logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+                    return None
+
+            elif method == "DELETE":
+                try:
+                    async with session.delete(self._base_url + endpoint, params=data, headers=headers) as resp:
+                        resp_json = await resp.json()
+                except Exception as e:
+                    logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+                    return None
+            else:
+                raise ValueError()
+
+            if resp.status_code == 200:
+                return resp_json
+            else:
+                logger.error("Error while making %s request to %s: %s (error code %s)",
+                             method, endpoint, resp_json, resp.status_code)
                 return None
-
-        elif method == "POST":
-            try:
-                response = requests.post(self._base_url + endpoint, params=data, headers=headers)
-            except Exception as e:
-                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-                return None
-
-        elif method == "DELETE":
-            try:
-                response = requests.delete(self._base_url + endpoint, params=data, headers=headers)
-            except Exception as e:
-                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-                return None
-        else:
-            raise ValueError()
-
-        if response.status_code == 200:
-            return response.json()
-        else:
-            logger.error("Error while making %s request to %s: %s (error code %s)",
-                         method, endpoint, response.json(), response.status_code)
-            return None
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
 
