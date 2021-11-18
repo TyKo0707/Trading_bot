@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="adding comments + correcting errors">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="finishing demo trading bot 1.0">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,13 +172,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635259151895</updated>
-    </task>
-    <task id="LOCAL-00001" summary="adding files">
-      <created>1635617423393</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1635617423393</updated>
     </task>
     <task id="LOCAL-00002" summary="first commit">
       <created>1635617524334</created>
@@ -516,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636933937003</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="finishing demo trading bot 1.0">
+      <created>1637168047088</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1637168047090</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -544,7 +544,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating strategies" />
     <MESSAGE value="updating strategies 2 + correction" />
     <MESSAGE value="updating gitignore" />
     <MESSAGE value="updating strategies 3 + correction" />
@@ -569,6 +568,7 @@
     <MESSAGE value="finishing db with autoloader" />
     <MESSAGE value="adding binance spot" />
     <MESSAGE value="adding comments + correcting errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding comments + correcting errors" />
+    <MESSAGE value="finishing demo trading bot 1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="finishing demo trading bot 1.0" />
   </component>
 </project>

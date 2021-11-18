@@ -1,5 +1,4 @@
 import logging
-import requests
 import time
 import typing
 import collections
@@ -32,7 +31,9 @@ class BinanceClient:
         :param testnet:
         :param futures: if False, the Client will be a Spot API Client
         """
-        self.loop = asyncio.get_event_loop()
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
+
         self.futures = futures
 
         if self.futures:
@@ -100,45 +101,47 @@ class BinanceClient:
     async def _make_request(self, method: str, endpoint: str, data: typing.Dict):
 
         """
-        Wrapper that normalizes the requests to the REST API and error handling.
-        :param method: GET, POST, DELETE
-        :param endpoint: Includes the /api/v1 part
-        :param data: Parameters of the request
-        :return:
+            Wrapper that normalizes the requests to the REST API and error handling.
+            :param method: GET, POST, DELETE
+            :param endpoint: Includes the /api/v1 part
+            :param data: Parameters of the request
+            :return:
         """
 
-        if method == "GET":
-            try:
-                async with aiohttp.ClientSession() as session:
-                    response = await session.get(self._base_url + endpoint, params=data, headers=self._headers)
-            except Exception as e:  # Takes into account any possible error, most likely network errors
-                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-                return None
+        async with aiohttp.ClientSession() as session:
+            if method == "GET":
+                try:
+                    async with session.get(self._base_url + endpoint, params=data,
+                                           headers={'X-MBX-APIKEY': self._public_key}) as resp:
+                        response = resp
+                        resp_json = await resp.json()
+                except Exception as e:  # Takes into account any possible error, most likely network errors
+                    return None
 
-        elif method == "POST":
-            try:
-                async with aiohttp.ClientSession() as session:
-                    response = await session.post(self._base_url + endpoint, params=data, headers=self._headers)
-            except Exception as e:
-                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-                return None
+            elif method == "POST":
+                try:
+                    async with session.post(self._base_url + endpoint, params=data,
+                                            headers={'X-MBX-APIKEY': self._public_key}) as resp:
+                        response = resp
+                        resp_json = await resp.json()
+                except Exception as e:
+                    return None
 
-        elif method == "DELETE":
-            try:
-                async with aiohttp.ClientSession() as session:
-                    response = await session.delete(self._base_url + endpoint, params=data, headers=self._headers)
-            except Exception as e:
-                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+            elif method == "DELETE":
+                try:
+                    async with session.delete(self._base_url + endpoint, params=data,
+                                              headers={'X-MBX-APIKEY': self._public_key}) as resp:
+                        response = resp
+                        resp_json = await resp.json()
+                except Exception as e:
+                    return None
+            else:
+                raise ValueError()
+
+            if response.status == 200:  # 200 is the response code of successful requests
+                return resp_json
+            else:
                 return None
-        else:
-            raise ValueError()
-        request_json = await response.json()
-        if response.status == 200:  # 200 is the response code of successful requests
-            return request_json
-        else:
-            logger.error("Error while making %s request to %s: %s (error code %s)",
-                         method, endpoint, request_json, response.status)
-            return None
 
     def make_request(self, method: str, endpoint: str, data: typing.Dict):
         return self.loop.run_until_complete(self._make_request(method, endpoint, data))
