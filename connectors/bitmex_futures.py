@@ -1,5 +1,4 @@
 import logging
-import requests
 import time
 import typing
 import collections
@@ -35,6 +34,8 @@ class BitmexClient:
         :param testnet:
         """
 
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
         self.futures = True
         self.platform = "bitmex"  # Just to have more homogeneous connectors, even if self.platform is not used
 
@@ -73,7 +74,7 @@ class BitmexClient:
         message = method + endpoint + "?" + urlencode(data) + expires if len(data) > 0 else method + endpoint + expires
         return hmac.new(self._secret_key.encode(), message.encode(), hashlib.sha256).hexdigest()
 
-    def _make_request(self, method: str, endpoint: str, data: typing.Dict):
+    async def _make_request(self, method: str, endpoint: str, data: typing.Dict):
 
         headers = dict()
         expires = str(int(time.time()) + 5)
@@ -114,9 +115,12 @@ class BitmexClient:
                              method, endpoint, resp_json, resp.status_code)
                 return None
 
+    def make_request(self, method: str, endpoint: str, data: typing.Dict):
+        return self.loop.run_until_complete(self._make_request(method, endpoint, data))
+
     def get_contracts(self) -> typing.Dict[str, Contract]:
 
-        instruments = self._make_request("GET", "/api/v1/instrument/active", dict())
+        instruments = self.make_request("GET", "/api/v1/instrument/active", dict())
 
         contracts = dict()
 
@@ -149,7 +153,7 @@ class BitmexClient:
         data['count'] = 500
         data['reverse'] = True
 
-        raw_candles = self._make_request("GET", "/api/v1/trade/bucketed", data)
+        raw_candles = self.make_request("GET", "/api/v1/trade/bucketed", data)
 
         candles = []
 
@@ -175,7 +179,7 @@ class BitmexClient:
         if tif is not None:
             data['timeInForce'] = tif
 
-        order_status = self._make_request("POST", "/api/v1/order", data)
+        order_status = self.make_request("POST", "/api/v1/order", data)
 
         if order_status is not None:
             order_status = OrderStatus(order_status, "bitmex")
@@ -186,7 +190,7 @@ class BitmexClient:
         data = dict()
         data['orderID'] = order_id
 
-        order_status = self._make_request("DELETE", "/api/v1/order", data)
+        order_status = self.make_request("DELETE", "/api/v1/order", data)
 
         if order_status is not None:
             order_status = OrderStatus(order_status[0], "bitmex")
@@ -199,7 +203,7 @@ class BitmexClient:
         data['symbol'] = contract.symbol
         data['reverse'] = True
 
-        order_status = self._make_request("GET", "/api/v1/order", data)
+        order_status = self.make_request("GET", "/api/v1/order", data)
 
         if order_status is not None:
             for order in order_status:
