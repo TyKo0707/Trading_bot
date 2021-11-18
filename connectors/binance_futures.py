@@ -141,6 +141,8 @@ class BinanceClient:
             if response.status == 200:  # 200 is the response code of successful requests
                 return resp_json
             else:
+                logger.error("Error while making %s request to %s: %s (error code %s)",
+                             method, endpoint, resp_json, resp.status_code)
                 return None
 
     def make_request(self, method: str, endpoint: str, data: typing.Dict):
