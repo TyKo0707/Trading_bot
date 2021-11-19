@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="adding ai for trading">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating ai for trading 1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_for_trafing/main_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_for_trading/main_ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_for_trading/main_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_for_trading/main_ai.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,13 +172,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635259151895</updated>
-    </task>
-    <task id="LOCAL-00004" summary="adding functional for bitmex api module">
-      <created>1635635826246</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1635635826246</updated>
     </task>
     <task id="LOCAL-00005" summary="finishing bitmex and  adding ui">
       <created>1635649123896</created>
@@ -516,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637330964486</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="updating ai for trading 1">
+      <created>1637331867547</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1637331867547</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -544,7 +544,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating strategies 3 + correction" />
     <MESSAGE value="updating strategies 4 + corrections" />
     <MESSAGE value="updating strategies 5 + adding pnl to gui" />
     <MESSAGE value="updating strategies 6 + adding pnl to gui" />
@@ -569,6 +568,7 @@
     <MESSAGE value="finishing demo trading bot 1.0" />
     <MESSAGE value="updating make_request 3" />
     <MESSAGE value="adding ai for trading" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding ai for trading" />
+    <MESSAGE value="updating ai for trading 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating ai for trading 1" />
   </component>
 </project>
