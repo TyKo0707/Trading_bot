@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="finishing demo trading bot 1.0">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating make_request 3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,13 +171,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635259151895</updated>
-    </task>
-    <task id="LOCAL-00002" summary="first commit">
-      <created>1635617524334</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1635617524334</updated>
     </task>
     <task id="LOCAL-00003" summary="first commit">
       <created>1635617544182</created>
@@ -516,7 +508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637168047090</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="updating make_request 3">
+      <created>1637255886403</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1637255886404</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -544,7 +543,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating strategies 2 + correction" />
     <MESSAGE value="updating gitignore" />
     <MESSAGE value="updating strategies 3 + correction" />
     <MESSAGE value="updating strategies 4 + corrections" />
@@ -569,6 +567,7 @@
     <MESSAGE value="adding binance spot" />
     <MESSAGE value="adding comments + correcting errors" />
     <MESSAGE value="finishing demo trading bot 1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="finishing demo trading bot 1.0" />
+    <MESSAGE value="updating make_request 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating make_request 3" />
   </component>
 </project>
