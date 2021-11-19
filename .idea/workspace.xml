@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating ai for trading 2">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating ai for trading 3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_for_trading/main_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_for_trading/main_ai.py" afterDir="false" />
     </list>
@@ -39,7 +39,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -49,7 +49,7 @@
       <recent name="C:\Users\38097\Desktop\trade\connectors" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_ai">
+  <component name="RunManager" selected="Python.test">
     <configuration name="PythonApplication4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="trade" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -178,8 +178,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main_ai" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.main_ai" />
         <item itemvalue="Python.PythonApplication4" />
         <item itemvalue="Python.bitmex_futures" />
         <item itemvalue="Python.binance_futures" />
@@ -194,13 +194,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635259151895</updated>
-    </task>
-    <task id="LOCAL-00006" summary="adding ui">
-      <created>1635799997786</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1635799997786</updated>
     </task>
     <task id="LOCAL-00007" summary="adding logging component">
       <created>1635801020837</created>
@@ -538,7 +531,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637333424201</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="updating ai for trading 3">
+      <created>1637337676979</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1637337676979</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -566,7 +566,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating strategies 5 + adding pnl to gui" />
     <MESSAGE value="updating strategies 6 + adding pnl to gui" />
     <MESSAGE value="updating strategies 7" />
     <MESSAGE value="adding data type entry validation" />
@@ -591,6 +590,7 @@
     <MESSAGE value="adding ai for trading" />
     <MESSAGE value="updating ai for trading 1" />
     <MESSAGE value="updating ai for trading 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating ai for trading 2" />
+    <MESSAGE value="updating ai for trading 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating ai for trading 3" />
   </component>
 </project>
