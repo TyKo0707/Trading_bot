@@ -1,11 +1,13 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import abc
 import threading
-import time
 
 import numpy as np
 import pandas as pd
 from keras.layers import Dense
-from keras.models import Sequential, model_from_json
+from keras.models import Sequential
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 
