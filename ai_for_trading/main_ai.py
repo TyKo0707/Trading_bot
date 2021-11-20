@@ -59,12 +59,13 @@ class AIPMDevelopment:
 
     def __init__(self):
         # Read your data in and split the dependent and independent
-        data = pd.read_csv('test.csv')
+        data = pd.read_csv('C:\\Users\\38097\Desktop\\trade\\test.csv')
         X = data['Delta Close']
         y = data.drop(['Delta Close'], axis=1)
 
         # Train test spit
         X_train, X_test, y_train, y_test = train_test_split(X, y)
+        print(f'X_train = \n{X_train}\nX_test = \n{X_test}\ny_train = {y_train}\ny_test = {y_test}')
 
         # Create the sequential
         network = Sequential()
