@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating ai for trading 4">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/trade.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/trade.iml" afterDir="false" />
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="updating ai for trading 5">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_for_trading/main_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_for_trading/main_ai.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +48,7 @@
       <recent name="C:\Users\38097\Desktop\trade\connectors" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="PythonApplication4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="trade" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -196,13 +193,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635259151895</updated>
-    </task>
-    <task id="LOCAL-00008" summary="debug + adding watchlist component">
-      <created>1635839518140</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1635839518141</updated>
     </task>
     <task id="LOCAL-00009" summary="updating watchlist">
       <created>1635888754028</created>
@@ -540,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637355369227</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="updating ai for trading 5">
+      <created>1637446571566</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1637446571566</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -568,7 +565,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating strategies 7" />
     <MESSAGE value="adding data type entry validation" />
     <MESSAGE value="start creating diagram and adding autocomplete widget" />
     <MESSAGE value="updating autocomplete widget 1" />
@@ -593,6 +589,7 @@
     <MESSAGE value="updating ai for trading 2" />
     <MESSAGE value="updating ai for trading 3" />
     <MESSAGE value="updating ai for trading 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating ai for trading 4" />
+    <MESSAGE value="updating ai for trading 5" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating ai for trading 5" />
   </component>
 </project>

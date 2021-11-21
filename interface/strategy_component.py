@@ -1,6 +1,5 @@
 import tkinter as tk
 import typing
-import tkmacosx as tkmac
 
 import json
 

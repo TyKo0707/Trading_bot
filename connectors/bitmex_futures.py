@@ -76,43 +76,49 @@ class BitmexClient:
 
     async def _make_request(self, method: str, endpoint: str, data: typing.Dict):
 
-        headers = dict()
-        expires = str(int(time.time()) + 5)
-        headers['api-expires'] = expires
-        headers['api-key'] = self._public_key
-        headers['api-signature'] = self._generate_signature(method, endpoint, expires, data)
+        """
+            Wrapper that normalizes the requests to the REST API and error handling.
+            :param method: GET, POST, DELETE
+            :param endpoint: Includes the /api/v1 part
+            :param data: Parameters of the request
+            :return:
+        """
+
         async with aiohttp.ClientSession() as session:
             if method == "GET":
                 try:
-                    async with session.get(self._base_url + endpoint, params=data, headers=headers) as resp:
+                    async with session.get(self._base_url + endpoint, params=data,
+                                           headers={'X-MBX-APIKEY': self._public_key}) as resp:
+                        response = resp
                         resp_json = await resp.json()
-                except Exception as e:
-                    logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+                except Exception as e:  # Takes into account any possible error, most likely network errors
                     return None
 
             elif method == "POST":
                 try:
-                    async with session.post(self._base_url + endpoint, params=data, headers=headers) as resp:
+                    async with session.post(self._base_url + endpoint, params=data,
+                                            headers={'X-MBX-APIKEY': self._public_key}) as resp:
+                        response = resp
                         resp_json = await resp.json()
                 except Exception as e:
-                    logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                     return None
 
             elif method == "DELETE":
                 try:
-                    async with session.delete(self._base_url + endpoint, params=data, headers=headers) as resp:
+                    async with session.delete(self._base_url + endpoint, params=data,
+                                              headers={'X-MBX-APIKEY': self._public_key}) as resp:
+                        response = resp
                         resp_json = await resp.json()
                 except Exception as e:
-                    logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
                     return None
             else:
                 raise ValueError()
 
-            if resp.status_code == 200:
+            if response.status == 200:  # 200 is the response code of successful requests
                 return resp_json
             else:
                 logger.error("Error while making %s request to %s: %s (error code %s)",
-                             method, endpoint, resp_json, resp.status_code)
+                             method, endpoint, resp_json, resp.status)
                 return None
 
     def make_request(self, method: str, endpoint: str, data: typing.Dict):
@@ -134,7 +140,7 @@ class BitmexClient:
         data = dict()
         data['currency'] = "all"
 
-        margin_data = self._make_request("GET", "/api/v1/user/margin", data)
+        margin_data = self.make_request("GET", "/api/v1/user/margin", data)
 
         balances = dict()
 
