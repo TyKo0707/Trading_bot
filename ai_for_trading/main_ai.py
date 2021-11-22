@@ -63,6 +63,7 @@ class AIPMDevelopment:
         X = data['Delta Close']
         y = data.drop(['Delta Close'], axis=1)
 
+
         # Train test spit
         X_train, X_test, y_train, y_test = train_test_split(X, y)
         print(f'X_train = \n{X_train}\nX_test = \n{X_test}\ny_train = {y_train}\ny_test = {y_test}')
