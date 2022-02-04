@@ -64,7 +64,7 @@ class StrategyEditor(tk.Frame):
             {"code_name": "strategy_type", "widget": tk.OptionMenu, "data_type": str,
              "values": ["Technical", "Breakout"], "width": 10, "header": "Strategy"},
             {"code_name": "contract", "widget": tk.OptionMenu, "data_type": str, "values": self._all_contracts,
-             "width": 15, "header": "Contract"},
+             "width": 16, "header": "Contract"},
             {"code_name": "timeframe", "widget": tk.OptionMenu, "data_type": str, "values": self._all_timeframes,
              "width": 10, "header": "Timeframe"},
             {"code_name": "balance_pct", "widget": tk.Entry, "data_type": float, "width": 10, "header": "Balance %"},
@@ -93,7 +93,7 @@ class StrategyEditor(tk.Frame):
 
         for idx, h in enumerate(self._base_params):
             header = tk.Label(self._headers_frame, text=h['header'], bg=BG_COLOR, fg=FG_COLOR, font=GLOBAL_FONT,
-                              width=h['width'], bd=1, relief=tk.FLAT)
+                              width=h['width'])
             header.grid(row=0, column=idx, padx=2)
 
         header = tk.Label(self._headers_frame, text="", bg=BG_COLOR, fg=FG_COLOR, font=GLOBAL_FONT,
@@ -135,12 +135,12 @@ class StrategyEditor(tk.Frame):
                 self.body_widgets[code_name][b_index] = tk.OptionMenu(self._body_frame.sub_frame,
                                                                       self.body_widgets[code_name + "_var"][b_index],
                                                                       *base_param['values'])
-                self.body_widgets[code_name][b_index].config(width=base_param['width'], bd=0, indicatoron=0)
+                self.body_widgets[code_name][b_index].config(width=base_param['width'] + 2, bd=0, indicatoron=0)
 
             elif base_param['widget'] == tk.Entry:
                 self.body_widgets[code_name][b_index] = tk.Entry(self._body_frame.sub_frame, justify=tk.CENTER,
                                                                  bg=BG_COLOR_2, fg=FG_COLOR,
-                                                                 font=GLOBAL_FONT, bd=1, width=base_param['width'])
+                                                                 font=GLOBAL_FONT, bd=1, width=base_param['width']+2)
 
                 if base_param['data_type'] == int:
                     self.body_widgets[code_name][b_index].config(validate='key', validatecommand=(self._valid_integer, "%P"))

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="add okex connector">
+    <list default="true" id="c2aa87a8-f615-4cda-8ef8-d82ad81cd17f" name="Changes" comment="add okex_client class">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectors/binance_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/binance_futures.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connectors/okex_futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectors/okex_futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/strategy_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/strategy_component.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,13 +196,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635259151895</updated>
-    </task>
-    <task id="LOCAL-00012" summary="adding strategy component">
-      <created>1635972666982</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1635972666982</updated>
     </task>
     <task id="LOCAL-00013" summary="updating strategy component 1">
       <created>1636063232629</created>
@@ -537,7 +533,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637584487898</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="add okex_client class">
+      <created>1637584770733</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1637584770733</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -565,7 +568,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="finishing autocomplete widget" />
     <MESSAGE value="adding scrollable frame" />
     <MESSAGE value="updating scrollable frame 1" />
     <MESSAGE value="updating scrollable frame 2" />
@@ -590,6 +592,7 @@
     <MESSAGE value="correcting make_request in bitmex_futures" />
     <MESSAGE value="adding MIT license" />
     <MESSAGE value="add okex connector" />
-    <option name="LAST_COMMIT_MESSAGE" value="add okex connector" />
+    <MESSAGE value="add okex_client class" />
+    <option name="LAST_COMMIT_MESSAGE" value="add okex_client class" />
   </component>
 </project>
